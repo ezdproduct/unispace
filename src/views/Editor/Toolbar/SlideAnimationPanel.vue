@@ -7,8 +7,10 @@
         v-for="item in animations" 
         :key="item.label"
         @click="updateTurningMode(item.value)"
+        @mouseenter="handleMouseEnter(item.value)"
+        @mouseleave="handleMouseLeave()"
       >
-        <div :class="['animation-block', item.value]">P</div>
+        <div :class="['animation-block', item.value, { 'auto-play': autoPlayItem === item.value }]">P</div>
         <div class="animation-text">{{ $t(`animation.${item.value}`) }}</div>
       </div>
     </div>
@@ -17,10 +19,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
-import { useSlidesStore } from '@/store'
+import { useSlidesStore, useMainStore } from '@/store'
 import type { TurningMode } from '@/types/slides'
 import { SLIDE_ANIMATIONS } from '@/configs/animation'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
@@ -29,6 +31,7 @@ import Button from '@/components/Button.vue'
 
 const { t } = useI18n()
 const slidesStore = useSlidesStore()
+const mainStore = useMainStore()
 const { slides, currentSlide } = storeToRefs(slidesStore)
 
 const currentTurningMode = computed(() => currentSlide.value.turningMode || 'slideY')
@@ -45,16 +48,28 @@ const updateTurningMode = (mode: TurningMode) => {
 }
 
 // 将当前页的切换页面方式应用到全部页面
-const applyAllSlide = () => {
-  const newSlides = slides.value.map(slide => {
-    return {
-      ...slide,
-      turningMode: currentSlide.value.turningMode,
-    }
-  })
-  slidesStore.setSlides(newSlides)
   message.success(t('toolbar.appliedAll'))
   addHistorySnapshot()
+}
+
+const autoPlayItem = ref('')
+
+onMounted(async () => {
+  for (const item of animations) {
+    if (item.value === 'no' || item.value === 'random') continue
+    autoPlayItem.value = item.value
+    await new Promise(resolve => setTimeout(resolve, 800))
+  }
+  autoPlayItem.value = ''
+})
+
+const handleMouseEnter = (mode: TurningMode) => {
+  if (mode === 'no' || mode === 'random') return
+  mainStore.setPreviewTransition(mode)
+}
+
+const handleMouseLeave = () => {
+  mainStore.setPreviewTransition('')
 }
 </script>
 
@@ -116,53 +131,53 @@ const applyAllSlide = () => {
     animation: $animationType $transitionDelaySlow linear;
   }
 
-  &.fade:hover {
+  &.fade:hover, &.fade.auto-play {
     &::after {
       @include elAnimation(fade);
     }
   }
-  &.slideX:hover {
+  &.slideX:hover, &.slideX.auto-play {
     &::after {
       @include elAnimation(slideX);
     }
   }
-  &.slideY:hover {
+  &.slideY:hover, &.slideY.auto-play {
     &::after {
       @include elAnimation(slideY);
     }
   }
-  &.slideX3D:hover {
+  &.slideX3D:hover, &.slideX3D.auto-play {
     &::after {
       @include elAnimation(slideX3D);
     }
   }
-  &.slideY3D:hover {
+  &.slideY3D:hover, &.slideY3D.auto-play {
     &::after {
       @include elAnimation(slideY3D);
     }
   }
-  &.rotate:hover {
+  &.rotate:hover, &.rotate.auto-play {
     &::after {
       transform-origin: 0 0;
       @include elAnimation(rotate);
     }
   }
-  &.scaleY:hover {
+  &.scaleY:hover, &.scaleY.auto-play {
     &::after {
       @include elAnimation(scaleY);
     }
   }
-  &.scaleX:hover {
+  &.scaleX:hover, &.scaleX.auto-play {
     &::after {
       @include elAnimation(scaleX);
     }
   }
-  &.scale:hover {
+  &.scale:hover, &.scale.auto-play {
     &::after {
       @include elAnimation(scale);
     }
   }
-  &.scaleReverse:hover {
+  &.scaleReverse:hover, &.scaleReverse.auto-play {
     &::after {
       @include elAnimation(scaleReverse);
     }
@@ -172,86 +187,5 @@ const applyAllSlide = () => {
   font-size: 12px;
   color: #333;
   text-align: center;
-}
-
-@keyframes fade {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-@keyframes slideX {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-@keyframes slideY {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-@keyframes slideX3D {
-  0% {
-    transform: translateX(100%) scale(.5);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-@keyframes slideY3D {
-  0% {
-    transform: translateY(100%) scale(.5);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-@keyframes rotate {
-  0% {
-    transform: rotate(-90deg);
-  }
-  100% {
-    transform: rotate(0);
-  }
-}
-@keyframes scaleY {
-  0% {
-    transform: scaleY(.1);
-  }
-  100% {
-    transform: scaleY(1);
-  }
-}
-@keyframes scaleX {
-  0% {
-    transform: scaleX(.1);
-  }
-  100% {
-    transform: scaleY(1);
-  }
-}
-@keyframes scale {
-  0% {
-    transform: scale(.25);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes scaleReverse {
-  0% {
-    transform: scale(2);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 </style>

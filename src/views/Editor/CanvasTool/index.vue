@@ -121,7 +121,15 @@
           >{{item}}%</PopoverMenuItem>
           <PopoverMenuItem center @click="resetCanvas(); canvasScaleVisible = false">{{ $t('canvasTool.adaptScreen') }}</PopoverMenuItem>
         </template>
-        <span class="text">{{ canvasScalePercentage }}</span>
+        <div style="padding: 10px; width: 200px">
+          <Slider 
+            :value="canvasScalePercentage" 
+            :min="10" 
+            :max="500" 
+            :step="5" 
+            @update:value="value => applyCanvasPresetScale(value as number)" 
+          />
+        </div>
       </Popover>
       <IconPlus class="handler-item viewport-size" v-tooltip="$t('canvasTool.canvasZoomIn')" @click="scaleCanvas('+')" />
       <IconFullScreen class="handler-item viewport-size-adaptation" v-tooltip="$t('canvasTool.adaptScreen')" @click="resetCanvas()" />
@@ -162,6 +170,7 @@ import Modal from '@/components/Modal.vue'
 import Divider from '@/components/Divider.vue'
 import Popover from '@/components/Popover.vue'
 import PopoverMenuItem from '@/components/PopoverMenuItem.vue'
+import Slider from '@/components/Slider.vue'
 
 const { t } = useI18n()
 const mainStore = useMainStore()

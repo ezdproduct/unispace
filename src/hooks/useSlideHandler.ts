@@ -33,7 +33,7 @@ export default () => {
       elements: [],
       background: {
         type: 'solid',
-        color: theme.value.backgroundColor,
+        color: '#fff',
       },
     }
     slidesStore.updateSlideIndex(0)
@@ -141,7 +141,7 @@ export default () => {
   // 拖拽调整幻灯片顺序同步数据
   const sortSlides = (newIndex: number, oldIndex: number) => {
     if (oldIndex === newIndex) return
-  
+
     const _slides: Slide[] = JSON.parse(JSON.stringify(slides.value))
 
     const movingSlide = _slides[oldIndex]

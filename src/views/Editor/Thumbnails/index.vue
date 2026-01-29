@@ -62,6 +62,7 @@
           >
             <div class="label" :class="{ 'offset-left': index >= 99 }">{{ fillDigit(index + 1, 2) }}</div>
             <ThumbnailSlide class="thumbnail" :slide="element" :size="120" :visible="index < slidesLoadLimit" />
+            <div class="transition-flag" v-if="element.turningMode && element.turningMode !== 'no'"><IconEffects /></div>
   
             <div class="note-flag" v-if="element.notes && element.notes.length" @click="openNotesPanel()">{{ element.notes.length }}</div>
           </div>
@@ -471,6 +472,20 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
       border: 4px solid transparent;
       border-top-color: rgba($color: $themeColor, $alpha: .75);
     }
+  }
+  .transition-flag {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    color: $themeColor;
+    font-size: 16px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 .label {

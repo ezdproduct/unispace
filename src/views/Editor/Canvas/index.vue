@@ -23,7 +23,9 @@
         height: viewportStyles.height * canvasScale + 'px',
         left: viewportStyles.left + 'px',
         top: viewportStyles.top + 'px',
+        animationName: previewTransition || 'none',
       }"
+      :class="{ 'slide-transition-preview': !!previewTransition }"
     >
       <div class="operates">
         <AlignmentLine 
@@ -152,7 +154,9 @@ const {
   creatingElement,
   creatingCustomShape,
   canvasScale,
+  canvasScale,
   textFormatPainter,
+  previewTransition,
 } = storeToRefs(mainStore)
 const { currentSlide } = storeToRefs(useSlidesStore())
 const { ctrlKeyState, spaceKeyState } = storeToRefs(useKeyboardStore())

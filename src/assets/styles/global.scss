@@ -136,3 +136,90 @@ textarea {
   background-color: #e1e1e1;
   border-radius: 3px;
 }
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes slideX {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideY {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes slideX3D {
+  0% {
+    transform: translateX(100%) scale(.5);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes slideY3D {
+  0% {
+    transform: translateY(100%) scale(.5);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(-90deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+@keyframes scaleY {
+  0% {
+    transform: scaleY(.1);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+@keyframes scaleX {
+  0% {
+    transform: scaleX(.1);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+@keyframes scale {
+  0% {
+    transform: scale(.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes scaleReverse {
+  0% {
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.slide-transition-preview {
+  animation-duration: 0.8s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}

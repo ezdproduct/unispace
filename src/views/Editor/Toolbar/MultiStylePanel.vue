@@ -1,7 +1,7 @@
 <template>
   <div class="multi-style-panel">
     <div class="row">
-      <div style="width: 40%;">填充颜色：</div>
+      <div style="width: 40%;">{{ $t('toolbar.fillColor') }}：</div>
       <Popover trigger="click" style="width: 60%;">
         <template #content>
           <ColorPicker
@@ -16,7 +16,7 @@
     <Divider />
 
     <div class="row">
-      <div style="width: 40%;">边框样式：</div>
+      <div style="width: 40%;">{{ $t('toolbar.borderStyle') }}：</div>
       <SelectCustom style="width: 60%;">
         <template #options>
           <div class="option" v-for="item in lineStyleOptions" :key="item" @click="updateOutline({ style: item })">
@@ -29,7 +29,7 @@
       </SelectCustom>
     </div>
     <div class="row">
-      <div style="width: 40%;">边框颜色：</div>
+      <div style="width: 40%;">{{ $t('toolbar.borderColor') }}：</div>
       <Popover trigger="click" style="width: 60%;">
         <template #content>
           <ColorPicker
@@ -41,7 +41,7 @@
       </Popover>
     </div>
     <div class="row">
-      <div style="width: 40%;">边框粗细：</div>
+      <div style="width: 40%;">{{ $t('toolbar.borderWidth') }}：</div>
       <NumberInput 
         :value="outline.width || 0"
         @update:value="value => updateOutline({ width: value })" 
@@ -56,10 +56,10 @@
         style="width: 60%;;"
         :value="richTextAttrs.fontname"
         search
-        searchLabel="搜索字体"
+        searchLabel="$t('toolbar.searchFont')"
         autofocus
         @update:value="value => updateFontStyle('fontname', value as string)"
-        :options="FONTS"
+        :options="fonts"
       >
         <template #icon>
           <IconFontSize />
@@ -69,7 +69,7 @@
         style="width: 40%;"
         :value="richTextAttrs.fontsize"
         search
-        searchLabel="搜索字号"
+        searchLabel="$t('toolbar.searchFontSize')"
         autofocus
         @update:value="value => updateFontStyle('fontsize', value as string)"
         :options="fontSizeOptions.map(item => ({
@@ -89,7 +89,7 @@
             @update:modelValue="value => updateFontStyle('color', value)"
           />
         </template>
-        <TextColorButton first :color="richTextAttrs.color" v-tooltip="'文字颜色'">
+        <TextColorButton first :color="richTextAttrs.color" v-tooltip="$t('toolbar.textColor')">
           <IconText />
         </TextColorButton>
       </Popover>
@@ -100,21 +100,21 @@
             @update:modelValue="value => updateFontStyle('backcolor', value)"
           />
         </template>
-        <TextColorButton :color="richTextAttrs.backcolor" v-tooltip="'文字高亮'">
+        <TextColorButton :color="richTextAttrs.backcolor" v-tooltip="$t('toolbar.textHighlight')">
           <IconHighLight />
         </TextColorButton>
       </Popover>
       <Button 
         class="font-size-btn"
         style="width: 20%;"
-        v-tooltip="'增大字号'"
+        v-tooltip="$t('toolbar.increaseFontSize')"
         @click="updateFontStyle('fontsize-add', '2')"
       ><IconFontSize />+</Button>
       <Button
         last
         class="font-size-btn"
         style="width: 20%;"
-        v-tooltip="'减小字号'"
+        v-tooltip="$t('toolbar.decreaseFontSize')"
         @click="updateFontStyle('fontsize-reduce', '2')"
       ><IconFontSize />-</Button>
     </ButtonGroup>
@@ -124,16 +124,17 @@
       :value="richTextAttrs.align"
       @update:value="value => updateFontStyle('align', value)"
     >
-      <RadioButton value="left" style="flex: 1;" v-tooltip="'左对齐'"><IconAlignTextLeft /></RadioButton>
-      <RadioButton value="center" style="flex: 1;" v-tooltip="'居中'"><IconAlignTextCenter /></RadioButton>
-      <RadioButton value="right" style="flex: 1;" v-tooltip="'右对齐'"><IconAlignTextRight /></RadioButton>
-      <RadioButton value="justify" style="flex: 1;" v-tooltip="'两端对齐'"><IconAlignTextBoth /></RadioButton>
+      <RadioButton value="left" style="flex: 1;" v-tooltip="$t('toolbar.alignLeft')"><IconAlignTextLeft /></RadioButton>
+      <RadioButton value="center" style="flex: 1;" v-tooltip="$t('toolbar.alignCenter')"><IconAlignTextCenter /></RadioButton>
+      <RadioButton value="right" style="flex: 1;" v-tooltip="$t('toolbar.alignRight')"><IconAlignTextRight /></RadioButton>
+      <RadioButton value="justify" style="flex: 1;" v-tooltip="$t('toolbar.alignJustify')"><IconAlignTextBoth /></RadioButton>
     </RadioGroup>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useMainStore, useSlidesStore } from '@/store'
 import type { LineStyleType, PPTElement, PPTElementOutline, TableCell } from '@/types/slides'
@@ -156,8 +157,16 @@ import SelectGroup from '@/components/SelectGroup.vue'
 import SelectCustom from '@/components/SelectCustom.vue'
 import Popover from '@/components/Popover.vue'
 
+const { t } = useI18n()
 const slidesStore = useSlidesStore()
 const { richTextAttrs, activeElementList } = storeToRefs(useMainStore())
+
+const fonts = computed(() => {
+  return FONTS.map(item => ({
+    ...item,
+    label: t(`fonts.${item.value || 'default'}`),
+  }))
+})
 
 const { addHistorySnapshot } = useHistorySnapshot()
 

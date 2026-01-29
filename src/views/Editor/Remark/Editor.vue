@@ -31,6 +31,7 @@
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { debounce } from 'lodash'
 import { useMainStore } from '@/store'
 import type { EditorView } from 'prosemirror-view'
@@ -51,6 +52,7 @@ const emit = defineEmits<{
   (event: 'update', payload: string): void
 }>()
 
+const { t } = useI18n()
 const mainStore = useMainStore()
 
 const editorViewRef = useTemplateRef<HTMLElement>('editorViewRef')
@@ -177,7 +179,7 @@ onMounted(() => {
       input: handleInput,
     },
   }, {
-    placeholder: '点击输入演讲者备注',
+    placeholder: t('toolbar.remarkPlaceholder'),
   })
 
   menuInstance.value = tippy(editorViewRef.value!, {

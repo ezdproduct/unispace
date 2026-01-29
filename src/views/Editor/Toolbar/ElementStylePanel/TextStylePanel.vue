@@ -15,12 +15,12 @@
     <Divider />
 
     <div class="row">
-      <div style="width: 40%;">行间距：</div>
+      <div style="width: 40%;">{{ $t('toolbar.lineHeight') }}：</div>
       <Select style="width: 60%;"
         :value="lineHeight || 1"
         @update:value="value => updateText({ lineHeight: value as number })"
         :options="lineHeightOptions.map(item => ({
-          label: item + '倍', value: item
+          label: item + t('toolbar.times'), value: item
         }))"
       >
         <template #icon>
@@ -29,7 +29,7 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">段间距：</div>
+      <div style="width: 40%;">{{ $t('toolbar.paragraphSpace') }}：</div>
       <Select style="width: 60%;"
         :value="paragraphSpace || 0"
         @update:value="value => updateText({ paragraphSpace: value as number })"
@@ -43,7 +43,7 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">字间距：</div>
+      <div style="width: 40%;">{{ $t('toolbar.wordSpace') }}：</div>
       <Select style="width: 60%;"
         :value="wordSpace || 0"
         @update:value="value => updateText({ wordSpace: value as number })"
@@ -57,7 +57,7 @@
       </Select>
     </div>
     <div class="row">
-      <div style="width: 40%;">文本框填充：</div>
+      <div style="width: 40%;">{{ $t('toolbar.textFill') }}：</div>
       <Popover trigger="click" style="width: 60%;">
         <template #content>
           <ColorPicker
@@ -80,6 +80,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useMainStore, useSlidesStore } from '@/store'
 import type { PPTTextElement } from '@/types/slides'
@@ -98,9 +99,11 @@ import Popover from '@/components/Popover.vue'
 
 // 注意，存在一个未知原因的BUG，如果文本加粗后文本框高度增加，画布的可视区域定位会出现错误
 // 因此在执行预置样式命令时，将加粗命令放在尽可能靠前的位置，避免字号增大后再加粗
+const { t } = useI18n()
+
 const presetStyles = [
   {
-    label: '大标题',
+    label: t('toolbar.largeTitle'),
     style: {
       fontSize: '26px',
       fontWeight: 700,
@@ -113,7 +116,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '小标题',
+    label: t('toolbar.smallTitle'),
     style: {
       fontSize: '22px',
       fontWeight: 700,
@@ -126,7 +129,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '正文',
+    label: t('toolbar.bodyText'),
     style: {
       fontSize: '20px',
     },
@@ -136,7 +139,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '正文[小]',
+    label: t('toolbar.bodyTextSmall'),
     style: {
       fontSize: '18px',
     },
@@ -146,7 +149,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '注释 1',
+    label: t('toolbar.note1'),
     style: {
       fontSize: '16px',
       fontStyle: 'italic',
@@ -158,7 +161,7 @@ const presetStyles = [
     ],
   },
   {
-    label: '注释 2',
+    label: t('toolbar.note2'),
     style: {
       fontSize: '16px',
       textDecoration: 'underline',

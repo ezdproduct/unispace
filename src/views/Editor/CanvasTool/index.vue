@@ -1,63 +1,63 @@
 <template>
   <div class="canvas-tool">
     <div class="left-handler">
-      <IconBack class="handler-item" :class="{ 'disable': !canUndo }" v-tooltip="'撤销（Ctrl + Z）'" @click="undo()" />
-      <IconNext class="handler-item" :class="{ 'disable': !canRedo }" v-tooltip="'重做（Ctrl + Y）'" @click="redo()" />
+      <IconBack class="handler-item" :class="{ 'disable': !canUndo }" v-tooltip="$t('canvasTool.undo')" @click="undo()" />
+      <IconNext class="handler-item" :class="{ 'disable': !canRedo }" v-tooltip="$t('canvasTool.redo')" @click="redo()" />
       <div class="more">
         <Divider type="vertical" style="height: 20px;" />
         <Popover class="more-icon" trigger="click" v-model:value="moreVisible" :offset="10">
           <template #content>
-            <PopoverMenuItem class="popover-menu-item" center @click="toggleNotesPanel(); moreVisible = false"><IconComment class="icon" />批注面板</PopoverMenuItem>
-            <PopoverMenuItem class="popover-menu-item" center @click="toggleSelectPanel(); moreVisible = false"><IconMoveOne class="icon" />选择窗格</PopoverMenuItem>
-            <PopoverMenuItem class="popover-menu-item" center @click="toggleSraechPanel(); moreVisible = false"><IconSearch class="icon" />查找替换</PopoverMenuItem>
+            <PopoverMenuItem class="popover-menu-item" center @click="toggleNotesPanel(); moreVisible = false"><IconComment class="icon" />{{ $t('canvasTool.notes') }}</PopoverMenuItem>
+            <PopoverMenuItem class="popover-menu-item" center @click="toggleSelectPanel(); moreVisible = false"><IconMoveOne class="icon" />{{ $t('canvasTool.select') }}</PopoverMenuItem>
+            <PopoverMenuItem class="popover-menu-item" center @click="toggleSraechPanel(); moreVisible = false"><IconSearch class="icon" />{{ $t('canvasTool.search') }}</PopoverMenuItem>
           </template>
           <IconMore class="handler-item" />
         </Popover>
-        <IconComment class="handler-item" :class="{ 'active': showNotesPanel }" v-tooltip="'批注面板'" @click="toggleNotesPanel()" />
-        <IconMoveOne class="handler-item" :class="{ 'active': showSelectPanel }" v-tooltip="'选择窗格'" @click="toggleSelectPanel()" />
-        <IconSearch class="handler-item" :class="{ 'active': showSearchPanel }" v-tooltip="'查找/替换（Ctrl + F）'" @click="toggleSraechPanel()" />
+        <IconComment class="handler-item" :class="{ 'active': showNotesPanel }" v-tooltip="$t('canvasTool.notes')" @click="toggleNotesPanel()" />
+        <IconMoveOne class="handler-item" :class="{ 'active': showSelectPanel }" v-tooltip="$t('canvasTool.select')" @click="toggleSelectPanel()" />
+        <IconSearch class="handler-item" :class="{ 'active': showSearchPanel }" v-tooltip="$t('canvasTool.search')" @click="toggleSraechPanel()" />
       </div>
     </div>
 
     <div class="add-element-handler">
-      <div class="insert-handler-item group-btn" :class="{ 'active': creatingElement?.type === 'text' }" v-tooltip="'插入文字'">
-        <div class="group-btn-main" @click="drawText()"><IconFontSize class="icon" /> <span class="text">文本框</span></div>
+      <div class="insert-handler-item group-btn" :class="{ 'active': creatingElement?.type === 'text' }" v-tooltip="$t('canvasTool.insertText')">
+        <div class="group-btn-main" @click="drawText()"><IconFontSize class="icon" /> <span class="text">{{ $t('canvasTool.text') }}</span></div>
         
         <Popover trigger="click" v-model:value="textTypeSelectVisible" style="height: 100%;" :offset="10">
           <template #content>
-            <PopoverMenuItem center @click="() => { drawText(); textTypeSelectVisible = false }"><IconTextRotationNone class="icon" /> 横向文本框</PopoverMenuItem>
-            <PopoverMenuItem center @click="() => { drawText(true); textTypeSelectVisible = false }"><IconTextRotationDown class="icon" /> 竖向文本框</PopoverMenuItem>
+            <PopoverMenuItem center @click="() => { drawText(); textTypeSelectVisible = false }"><IconTextRotationNone class="icon" /> {{ $t('canvasTool.horizontalText') }}</PopoverMenuItem>
+            <PopoverMenuItem center @click="() => { drawText(true); textTypeSelectVisible = false }"><IconTextRotationDown class="icon" /> {{ $t('canvasTool.verticalText') }}</PopoverMenuItem>
           </template>
           <IconDown class="arrow" />
         </Popover>
       </div>
-      <div class="insert-handler-item group-btn" :class="{ 'active': creatingCustomShape || creatingElement?.type === 'shape' }" v-tooltip="'插入形状'" :offset="10">
+      <div class="insert-handler-item group-btn" :class="{ 'active': creatingCustomShape || creatingElement?.type === 'shape' }" v-tooltip="$t('canvasTool.insertShape')" :offset="10">
         <Popover trigger="click" style="height: 100%;" v-model:value="shapePoolVisible" :offset="10">
           <template #content>
             <ShapePool @select="shape => drawShape(shape)" />
           </template>
-          <div class="group-btn-main"><IconGraphicDesign class="icon" /> <span class="text">形状</span></div>
+          <div class="group-btn-main"><IconGraphicDesign class="icon" /> <span class="text">{{ $t('canvasTool.shape') }}</span></div>
         </Popover>
         
         <Popover trigger="click" v-model:value="shapeMenuVisible" style="height: 100%;" :offset="10">
           <template #content>
-            <PopoverMenuItem center @click="shapeMenuVisible = false; shapePoolVisible = true"><IconGraphicDesign class="icon" />预设形状</PopoverMenuItem>
-            <PopoverMenuItem center @click="() => { drawCustomShape(); shapeMenuVisible = false }"><IconWritingFluently class="icon" />自由绘制</PopoverMenuItem>
+            <PopoverMenuItem center @click="shapeMenuVisible = false; shapePoolVisible = true"><IconGraphicDesign class="icon" />{{ $t('canvasTool.presetShape') }}</PopoverMenuItem>
+            <PopoverMenuItem center @click="() => { drawCustomShape(); shapeMenuVisible = false }"><IconWritingFluently class="icon" />{{ $t('canvasTool.customShape') }}</PopoverMenuItem>
           </template>
           <IconDown class="arrow" />
         </Popover>
       </div>
-      <div class="insert-handler-item group-btn" v-tooltip="'插入图片'">
+      <div class="insert-handler-item group-btn" v-tooltip="$t('canvasTool.insertImage')">
         <FileInput style="height: 100%;" @change="files => insertImageElement(files)">
-          <div class="group-btn-main"><IconPicture class="icon" /> <span class="text">图片</span></div>
+          <div class="group-btn-main"><IconPicture class="icon" /> <span class="text">{{ $t('canvasTool.image') }}</span></div>
         </FileInput>
         
         <Popover trigger="click" v-model:value="imageMenuVisible" style="height: 100%;" :offset="10">
           <template #content>
             <FileInput @change="files => { insertImageElement(files); imageMenuVisible = false }">
-              <PopoverMenuItem center><IconUpload class="icon" /> 上传图片</PopoverMenuItem>
+              <PopoverMenuItem center><IconUpload class="icon" /> {{ $t('canvasTool.uploadImage') }}</PopoverMenuItem>
             </FileInput>
-            <PopoverMenuItem center @click="openImageLibPanel(); imageMenuVisible = false"><IconPicture class="icon" /> 在线图库</PopoverMenuItem>
+            <PopoverMenuItem center @click="openImageLibPanel(); imageMenuVisible = false"><IconPicture class="icon" /> {{ $t('canvasTool.onlineImage') }}</PopoverMenuItem>
           </template>
           <IconDown class="arrow" />
         </Popover>
@@ -66,16 +66,16 @@
         <template #content>
           <LinePool @select="line => drawLine(line)" />
         </template>
-        <div class="insert-handler-item" :class="{ 'active': creatingElement?.type === 'line' }" v-tooltip="'插入线条'">
-          <IconConnection class="icon" /> <span class="text">线条</span>
+        <div class="insert-handler-item" :class="{ 'active': creatingElement?.type === 'line' }" v-tooltip="$t('canvasTool.insertLine')">
+          <IconConnection class="icon" /> <span class="text">{{ $t('canvasTool.line') }}</span>
         </div>
       </Popover>
       <Popover trigger="click" v-model:value="chartPoolVisible" :offset="10">
         <template #content>
           <ChartPool @select="chart => { createChartElement(chart); chartPoolVisible = false }" />
         </template>
-        <div class="insert-handler-item" v-tooltip="'插入图表'">
-          <IconChartProportion class="icon" /> <span class="text">图表</span>
+        <div class="insert-handler-item" v-tooltip="$t('canvasTool.insertChart')">
+          <IconChartProportion class="icon" /> <span class="text">{{ $t('canvasTool.chart') }}</span>
         </div>
       </Popover>
       <Popover trigger="click" v-model:value="tableGeneratorVisible" :offset="10">
@@ -85,12 +85,12 @@
             @insert="({ row, col }) => { createTableElement(row, col); tableGeneratorVisible = false }"
           />
         </template>
-        <div class="insert-handler-item" v-tooltip="'插入表格'">
-          <IconInsertTable class="icon" /> <span class="text">表格</span>
+        <div class="insert-handler-item" v-tooltip="$t('canvasTool.insertTable')">
+          <IconInsertTable class="icon" /> <span class="text">{{ $t('canvasTool.table') }}</span>
         </div>
       </Popover>
-      <div class="insert-handler-item" v-tooltip="'插入公式'" @click="latexEditorVisible = true">
-        <IconFormula class="icon" /> <span class="text">公式</span>
+      <div class="insert-handler-item" v-tooltip="$t('canvasTool.insertLatex')" @click="latexEditorVisible = true">
+        <IconFormula class="icon" /> <span class="text">{{ $t('canvasTool.latex') }}</span>
       </div>
       <Popover trigger="click" v-model:value="mediaInputVisible" :offset="10">
         <template #content>
@@ -100,17 +100,17 @@
             @insertAudio="({ src, ext }) => { createAudioElement(src, ext); mediaInputVisible = false }"
           />
         </template>
-        <div class="insert-handler-item" v-tooltip="'插入音视频'">
-          <IconVideoTwo class="icon" /> <span class="text">音视频</span>
+        <div class="insert-handler-item" v-tooltip="$t('canvasTool.insertMedia')">
+          <IconVideoTwo class="icon" /> <span class="text">{{ $t('canvasTool.media') }}</span>
         </div>
       </Popover>
-      <div class="insert-handler-item" :class="{ 'active': showSymbolPanel }" v-tooltip="'插入符号'" @click="toggleSymbolPanel()">
-        <IconSymbol class="icon" /> <span class="text">符号</span>
+      <div class="insert-handler-item" :class="{ 'active': showSymbolPanel }" v-tooltip="$t('canvasTool.insertSymbol')" @click="toggleSymbolPanel()">
+        <IconSymbol class="icon" /> <span class="text">{{ $t('canvasTool.symbol') }}</span>
       </div>
     </div>
 
     <div class="right-handler">
-      <IconMinus class="handler-item viewport-size" v-tooltip="'画布缩小（Ctrl + -）'" @click="scaleCanvas('-')" />
+      <IconMinus class="handler-item viewport-size" v-tooltip="$t('canvasTool.canvasZoomOut')" @click="scaleCanvas('-')" />
       <Popover trigger="click" v-model:value="canvasScaleVisible">
         <template #content>
           <PopoverMenuItem
@@ -119,12 +119,12 @@
             :key="item" 
             @click="applyCanvasPresetScale(item)"
           >{{item}}%</PopoverMenuItem>
-          <PopoverMenuItem center @click="resetCanvas(); canvasScaleVisible = false">适应屏幕</PopoverMenuItem>
+          <PopoverMenuItem center @click="resetCanvas(); canvasScaleVisible = false">{{ $t('canvasTool.adaptScreen') }}</PopoverMenuItem>
         </template>
         <span class="text">{{ canvasScalePercentage }}</span>
       </Popover>
-      <IconPlus class="handler-item viewport-size" v-tooltip="'画布放大（Ctrl + =）'" @click="scaleCanvas('+')" />
-      <IconFullScreen class="handler-item viewport-size-adaptation" v-tooltip="'适应屏幕（Ctrl + 0）'" @click="resetCanvas()" />
+      <IconPlus class="handler-item viewport-size" v-tooltip="$t('canvasTool.canvasZoomIn')" @click="scaleCanvas('+')" />
+      <IconFullScreen class="handler-item viewport-size-adaptation" v-tooltip="$t('canvasTool.adaptScreen')" @click="resetCanvas()" />
     </div>
 
     <Modal
@@ -141,6 +141,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useMainStore, useSnapshotStore } from '@/store'
 import { getImageDataURL } from '@/utils/image'
@@ -162,6 +163,7 @@ import Divider from '@/components/Divider.vue'
 import Popover from '@/components/Popover.vue'
 import PopoverMenuItem from '@/components/PopoverMenuItem.vue'
 
+const { t } = useI18n()
 const mainStore = useMainStore()
 const { creatingElement, creatingCustomShape, showSelectPanel, showSearchPanel, showNotesPanel, showSymbolPanel } = storeToRefs(mainStore)
 const { canUndo, canRedo } = storeToRefs(useSnapshotStore())

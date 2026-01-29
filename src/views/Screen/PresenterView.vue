@@ -1,17 +1,17 @@
 <template>
   <div class="presenter-view">
     <div class="toolbar">
-      <div class="tool-btn" @click="changeViewMode('base')"><IconListView class="tool-icon" /><span>普通视图</span></div>
-      <div class="tool-btn" :class="{ 'active': writingBoardToolVisible }" @click="writingBoardToolVisible = !writingBoardToolVisible"><IconWrite class="tool-icon" /><span>画笔</span></div>
-      <div class="tool-btn" :class="{ 'active': laserPen }" @click="laserPen = !laserPen"><IconMagic class="tool-icon" /><span>激光笔</span></div>
-      <div class="tool-btn" :class="{ 'active': timerlVisible }" @click="timerlVisible = !timerlVisible"><IconStopwatchStart class="tool-icon" /><span>计时器</span></div>
+      <div class="tool-btn" @click="changeViewMode('base')"><IconListView class="tool-icon" /><span>{{ $t('screening.baseView') }}</span></div>
+      <div class="tool-btn" :class="{ 'active': writingBoardToolVisible }" @click="writingBoardToolVisible = !writingBoardToolVisible"><IconWrite class="tool-icon" /><span>{{ $t('screening.writingBoard') }}</span></div>
+      <div class="tool-btn" :class="{ 'active': laserPen }" @click="laserPen = !laserPen"><IconMagic class="tool-icon" /><span>{{ $t('screening.laserPen') }}</span></div>
+      <div class="tool-btn" :class="{ 'active': timerlVisible }" @click="timerlVisible = !timerlVisible"><IconStopwatchStart class="tool-icon" /><span>{{ $t('screening.timer') }}</span></div>
       <div class="tool-btn" @click="() => fullscreenState ? manualExitFullscreen() : enterFullscreen()">
         <IconOffScreenOne class="tool-icon" v-if="fullscreenState" />
         <IconFullScreenOne class="tool-icon" v-else />
-        <span>{{ fullscreenState ? '退出全屏' : '全屏' }}</span>
+        <span>{{ fullscreenState ? $t('screening.exitFullscreen') : $t('screening.fullscreen') }}</span>
       </div>
       <Divider class="divider" />
-      <div class="tool-btn" @click="exitScreening()"><IconPower class="tool-icon" /><span>结束放映</span></div>
+      <div class="tool-btn" @click="exitScreening()"><IconPower class="tool-icon" /><span>{{ $t('screening.exit') }}</span></div>
     </div>
 
     <div class="content">
@@ -29,7 +29,7 @@
           @wheel="($event: WheelEvent) => mousewheelListener($event)"
           @touchstart="($event: TouchEvent) => touchStartListener($event)"
           @touchend="($event: TouchEvent) => touchEndListener($event)"
-          v-contextmenu="contextmenus"
+          v-contextmenu="computedContextmenus"
         />
         <WritingBoardTool 
           :slideWidth="slideWidth"
@@ -64,10 +64,10 @@
 
     <div class="remark">
       <div class="header">
-        <span>演讲者备注</span>
+        <span>{{ $t('screening.remarks') }}</span>
         <span>P {{slideIndex + 1}} / {{slides.length}}</span>
       </div>
-      <div class="remark-content ProseMirror-static" :class="{ 'empty': !currentSlideRemark }" :style="{ fontSize: remarkFontSize + 'px' }" v-html="currentSlideRemark || '无备注'"></div>
+      <div class="remark-content ProseMirror-static" :class="{ 'empty': !currentSlideRemark }" :style="{ fontSize: remarkFontSize + 'px' }" v-html="currentSlideRemark || $t('screening.noRemarks')"></div>
       <div class="remark-scale">
         <div :class="['scale-btn', { 'disable': remarkFontSize === 12 }]" @click="setRemarkFontSize(remarkFontSize - 2)"><IconMinus /></div>
         <div :class="['scale-btn', { 'disable': remarkFontSize === 40 }]" @click="setRemarkFontSize(remarkFontSize + 2)"><IconPlus /></div>
@@ -78,6 +78,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, ref, watch, useTemplateRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import type { ContextmenuItem } from '@/components/Contextmenu/types'
@@ -134,6 +135,7 @@ const handleMousewheelThumbnails = (e: WheelEvent) => {
   thumbnailsRef.value.scrollBy(e.deltaY, 0)
 }
 
+const { t } = useI18n()
 const setRemarkFontSize = (fontSize: number) => {
   if (fontSize < 12 || fontSize > 40) return
   remarkFontSize.value = fontSize
@@ -152,42 +154,42 @@ watch(slideIndex, () => {
   })
 })
 
-const contextmenus = (): ContextmenuItem[] => {
+const computedContextmenus = (): ContextmenuItem[] => {
   return [
     {
-      text: '上一页',
+      text: t('screening.prev'),
       subText: '↑ ←',
       disable: slideIndex.value <= 0,
       handler: () => turnPrevSlide(),
     },
     {
-      text: '下一页',
+      text: t('screening.next'),
       subText: '↓ →',
       disable: slideIndex.value >= slides.value.length - 1,
       handler: () => turnNextSlide(),
     },
     {
-      text: '第一页',
+      text: t('screening.first'),
       disable: slideIndex.value === 0,
       handler: () => turnSlideToIndex(0),
     },
     {
-      text: '最后一页',
+      text: t('screening.last'),
       disable: slideIndex.value === slides.value.length - 1,
       handler: () => turnSlideToIndex(slides.value.length - 1),
     },
     { divider: true },
     {
-      text: '画笔工具',
+      text: t('screening.writingBoardTool'),
       handler: () => writingBoardToolVisible.value = true,
     },
     {
-      text: '普通视图',
+      text: t('screening.baseView'),
       handler: () => props.changeViewMode('base'),
     },
     { divider: true },
     {
-      text: '结束放映',
+      text: t('screening.exit'),
       subText: 'ESC',
       handler: exitScreening,
     },

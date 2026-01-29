@@ -68,6 +68,7 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { debounce, isEqual } from 'lodash'
 import { storeToRefs } from 'pinia'
 import { nanoid } from 'nanoid'
@@ -677,6 +678,8 @@ const checkCanMergeOrSplit = (rowIndex: number, colIndex: number) => {
   return { canMerge, canSplit }
 }
 
+const { t } = useI18n()
+
 const contextmenus = (el: HTMLElement): ContextmenuItem[] => {
   const cellIndex = el.dataset.cellIndex as string
   const rowIndex = +cellIndex.split('_')[0]
@@ -692,51 +695,51 @@ const contextmenus = (el: HTMLElement): ContextmenuItem[] => {
 
   return [
     {
-      text: '插入列',
+      text: t('tableContextMenu.insertCol'),
       children: [
-        { text: '到左侧', handler: () => insertCol(colIndex) },
-        { text: '到右侧', handler: () => insertCol(colIndex + 1) },
+        { text: t('tableContextMenu.insertColLeft'), handler: () => insertCol(colIndex) },
+        { text: t('tableContextMenu.insertColRight'), handler: () => insertCol(colIndex + 1) },
       ],
     },
     {
-      text: '插入行',
+      text: t('tableContextMenu.insertRow'),
       children: [
-        { text: '到上方', handler: () => insertRow(rowIndex) },
-        { text: '到下方', handler: () => insertRow(rowIndex + 1) },
+        { text: t('tableContextMenu.insertRowAbove'), handler: () => insertRow(rowIndex) },
+        { text: t('tableContextMenu.insertRowBelow'), handler: () => insertRow(rowIndex + 1) },
       ],
     },
     {
-      text: '删除列',
+      text: t('tableContextMenu.deleteCol'),
       disable: !canDeleteCol,
       handler: () => deleteCol(colIndex),
     },
     {
-      text: '删除行',
+      text: t('tableContextMenu.deleteRow'),
       disable: !canDeleteRow,
       handler: () => deleteRow(rowIndex),
     },
     { divider: true },
     {
-      text: '合并单元格',
+      text: t('tableContextMenu.mergeCells'),
       disable: !canMerge,
       handler: mergeCells,
     },
     {
-      text: '取消合并单元格',
+      text: t('tableContextMenu.splitCells'),
       disable: !canSplit,
       handler: () => splitCells(rowIndex, colIndex),
     },
     { divider: true },
     {
-      text: '选中当前列',
+      text: t('tableContextMenu.selectCol'),
       handler: () => selectCol(colIndex),
     },
     {
-      text: '选中当前行',
+      text: t('tableContextMenu.selectRow'),
       handler: () => selectRow(rowIndex),
     },
     {
-      text: '选中全部单元格',
+      text: t('tableContextMenu.selectAll'),
       handler: selectAll,
     },
   ]

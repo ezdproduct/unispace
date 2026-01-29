@@ -1,4 +1,5 @@
 import { onMounted, onUnmounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { throttle } from 'lodash'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
@@ -7,6 +8,7 @@ import { ANIMATION_CLASS_PREFIX } from '@/configs/animation'
 import message from '@/utils/message'
 
 export default () => {
+  const { t } = useI18n()
   const slidesStore = useSlidesStore()
   const { slides, slideIndex, formatedAnimations } = storeToRefs(slidesStore)
 
@@ -41,13 +43,13 @@ export default () => {
       }
 
       const animationName = `${ANIMATION_CLASS_PREFIX}${animation.effect}`
-      
+
       // 执行动画前先清除原有的动画状态（如果有）
       elRef.style.removeProperty('--animate-duration')
       for (const classname of elRef.classList) {
         if (classname.indexOf(ANIMATION_CLASS_PREFIX) !== -1) elRef.classList.remove(classname, `${ANIMATION_CLASS_PREFIX}animated`)
       }
-      
+
       // 执行动画
       elRef.style.setProperty('--animate-duration', `${animation.duration}ms`)
       elRef.classList.add(animationName, `${ANIMATION_CLASS_PREFIX}animated`)
@@ -86,7 +88,7 @@ export default () => {
     for (const animation of animations) {
       const elRef: HTMLElement | null = document.querySelector(`#screen-element-${animation.elId} [class^=base-element-]`)
       if (!elRef) continue
-      
+
       elRef.style.removeProperty('--animate-duration')
       for (const classname of elRef.classList) {
         if (classname.indexOf(ANIMATION_CLASS_PREFIX) !== -1) elRef.classList.remove(classname, `${ANIMATION_CLASS_PREFIX}animated`)
@@ -113,7 +115,7 @@ export default () => {
     loopPlay.value = loop
   }
 
-  const throttleMassage = throttle(function(msg) {
+  const throttleMassage = throttle(function (msg) {
     message.success(msg)
   }, 1000, { leading: true, trailing: false })
 
@@ -135,7 +137,7 @@ export default () => {
     }
     else {
       if (loopPlay.value) turnSlideToIndex(slides.value.length - 1)
-      else throttleMassage('已经是第一页了')
+      else throttleMassage(t('screen.firstPage'))
     }
     inAnimation.value = false
   }
@@ -151,7 +153,7 @@ export default () => {
     else {
       if (loopPlay.value) turnSlideToIndex(0)
       else {
-        throttleMassage('已经是最后一页了')
+        throttleMassage(t('screen.lastPage'))
         closeAutoPlay()
       }
       inAnimation.value = false
@@ -162,7 +164,7 @@ export default () => {
   const autoPlayInterval = ref(2500)
   const autoPlay = () => {
     closeAutoPlay()
-    message.success('开始自动放映')
+    message.success(t('screen.autoPlayStart'))
     autoPlayTimer.value = setInterval(execNext, autoPlayInterval.value)
   }
 
@@ -173,7 +175,7 @@ export default () => {
   }
 
   // 鼠标滚动翻页
-  const mousewheelListener = throttle(function(e: WheelEvent) {
+  const mousewheelListener = throttle(function (e: WheelEvent) {
     if (e.deltaY < 0) execPrev()
     else if (e.deltaY > 0) execNext()
   }, 500, { leading: true, trailing: false })
@@ -193,7 +195,7 @@ export default () => {
     const offsetX = Math.abs(touchInfo.value.x - e.changedTouches[0].pageX)
     const offsetY = e.changedTouches[0].pageY - touchInfo.value.y
 
-    if ( Math.abs(offsetY) > offsetX && Math.abs(offsetY) > 50 ) {
+    if (Math.abs(offsetY) > offsetX && Math.abs(offsetY) > 50) {
       touchInfo.value = null
 
       if (offsetY > 0) execPrev()
@@ -207,9 +209,9 @@ export default () => {
 
     if (key === KEYS.UP || key === KEYS.LEFT || key === KEYS.PAGEUP) execPrev()
     else if (
-      key === KEYS.DOWN || 
+      key === KEYS.DOWN ||
       key === KEYS.RIGHT ||
-      key === KEYS.SPACE || 
+      key === KEYS.SPACE ||
       key === KEYS.ENTER ||
       key === KEYS.PAGEDOWN
     ) execNext()

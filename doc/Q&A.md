@@ -1,4 +1,87 @@
+## Câu hỏi thường gặp (Tiếng Việt)
+
+#### Q. Tại sao phím tắt xxx không hoạt động?
+
+A. Một số phím tắt cần được tập trung (focus) vào vùng chỉ định mới có hiệu lực. Ví dụ: tiêu điểm phải ở danh sách hình thu nhỏ bên trái mới có thể dùng phím tắt thao tác trang, tiêu điểm ở vùng canvas mới có thể dùng phím tắt thao tác phần tử.
+
+#### Q. Tại sao chức năng dán (paste) không hoạt động?
+
+A. Vui lòng đảm bảo cho phép trình duyệt truy cập vào khay nhớ tạm (clipboard) của hệ thống.
+
+#### Q. Tại sao sau khi làm mới trình duyệt hoặc mở lại, các slide đã làm trước đó bị mất?
+
+A. Các liên kết được cung cấp bởi kho lưu trữ chỉ dành cho mục đích trình diễn. Dự án này được triển khai thuần túy ở giao diện người dùng (front-end), không có máy chủ (back-end), vì vậy sẽ không lưu trữ dữ liệu.
+
+#### Q. Làm thế nào để điều chỉnh thứ tự các slide?
+
+A. Nhấn giữ hình thu nhỏ ở bên trái và kéo thả để điều chỉnh thứ tự.
+
+#### Q. Tại sao sau khi chèn hình ảnh lại xảy ra hiện tượng giật lag khi thao tác?
+
+A. Do dự án demo này không phụ thuộc vào back-end, việc chèn hình ảnh cục bộ thực chất là tham chiếu qua Base64, dẫn đến dung lượng dữ liệu rất lớn. Trong môi trường sản xuất thực tế, bạn nên tải ảnh lên và tham chiếu qua địa chỉ (URL) hình ảnh thì sẽ không xảy ra tình trạng này.
+
+#### Q. Tại sao sau khi áp dụng chủ đề (theme) có sẵn lại không thấy hiệu quả?
+
+A. Việc thiết lập chủ đề có sẵn giúp các phần tử và trang mới thêm vào áp dụng kiểu dáng của chủ đề đó, nó sẽ không có tác dụng với các phần tử và trang đã tồn tại. Bạn có thể sử dụng chức năng "Áp dụng chủ đề cho tất cả" để áp dụng chủ đề hiện tại cho toàn bộ các trang.
+
+#### Q. Cài đặt font chữ trực tuyến không có hiệu lực?
+
+A. Khi cài đặt font chữ trực tuyến, trình duyệt sẽ tải tệp font tương ứng. Tệp này khá lớn, bạn cần đợi quá trình tải hoàn tất thì font chữ mới mới được áp dụng.
+
+#### Q. Về việc nhập và xuất tệp PPTX
+
+A. Là một ứng dụng thuyết trình trực tuyến, việc xuất và nhập tệp PPTX là một chức năng rất quan trọng. Tuy nhiên, qua nghiên cứu, việc hiện thực chức năng này có độ phức tạp vượt xa mong đợi ban đầu. Do giới hạn về khả năng và thời gian cá nhân, phần chức năng này chỉ có thể dựa vào các thư viện bên thứ ba.
+
+- Xuất: Hiện tại chức năng xuất chủ yếu dựa trên [PptxGenJS](https://github.com/gitbrent/PptxGenJS/). Nó có thể xuất hầu hết các phần tử cơ bản, nhưng vẫn còn nhiều lỗi cần được hoàn thiện dần. Đồng thời cần biết rằng: 1. Chức năng này phụ thuộc vào PptxGenJS, những phần mà thư viện này không thể thực hiện (như hiệu ứng chuyển động), dự án này cũng không thể làm gì hơn; 2. Mục tiêu của chức năng xuất chỉ là [xuất các phần tử có kiểu dáng giống nhất có thể], chứ không phải khôi phục trang web 1:1 sang PPT, một số sự khác biệt về kiểu dáng là không thể tránh khỏi.
+
+- Nhập: Hiện tại vẫn chưa có giải pháp phù hợp cho chức năng nhập, vẫn đang trong quá trình nghiên cứu. Nếu có bạn nào quan tâm hoặc từng làm nội dung tương quan, hoan nghênh thảo luận trong phần issues.
+
+> PS. Tôi đã làm một thử nghiệm [chuyển đổi pptx sang json](https://github.com/pipipi-pikachu/pptx2json). Nếu bạn thực sự cần hiện thực chức năng nhập tệp PPTX, có thể tham khảo nó để tự hiện thực.
+
+Đồng thời bổ sung thêm, dự án này không phải là trình chỉnh sửa trực tuyến chuyên biệt cho Office PPT, về bản chất không có bất kỳ mối quan hệ nào với Office PPT. [Nhập/Xuất tệp ppt] chỉ là một [tính năng] của dự án chứ không phải [mục đích].
+
+#### Q. Các phần tử video hỗ trợ những định dạng nào?
+
+A. Dự án này chỉ cung cấp khả năng video cơ bản nhất, ở trạng thái bình thường có thể phát các định dạng mà thẻ video của trình duyệt hỗ trợ.
+
+Ngoài ra, bạn có thể chèn thêm [hls.js](https://github.com/video-dev/hls.js) hoặc [flv.js](https://github.com/Bilibili/flv.js) để hỗ trợ các định dạng tương ứng (.m3u8 .flv), bạn chỉ cần chèn tệp tương ứng (như từ CDN) vào dự án mà không cần cấu hình thêm.
+
+#### Q. Về việc nhập tệp JSON
+
+A. Đầu tiên, vì lý do an toàn và các lý do khác, cá nhân tôi không khuyến nghị để chức năng này tiếp xúc trực tiếp với người dùng ở giao diện front-end, hoặc nói cách khác người dùng hoàn toàn không nên tiếp xúc với định dạng JSON (ngay cả ý định ban đầu của chức năng xuất JSON cũng chỉ là để thuận tiện cho việc phát triển). Nếu thực sự có nhu cầu, vui lòng tự hiện thực ở phía máy chủ, cốt lõi nằm ở việc kiểm tra và xác thực dữ liệu (validation), hiện thực ở front-end cũng tương tự.
+
+#### Q. Kiểu dáng khi In / Xuất PDF có sự khác biệt với thực tế
+
+A. Vui lòng chú ý điều chỉnh các cài đặt liên quan trong cửa sổ in của trình duyệt. Gợi ý: đặt lề là [Mặc định], bỏ chọn [Tiêu đề trang và Chân trang], chọn [Đồ họa nền]. Ngoài ra, khuyến nghị sử dụng giải pháp tạo PDF ở phía back-end trong môi trường chính thức để đạt hiệu quả tốt hơn (ví dụ dùng Puppeteer).
+
+#### Q. Tại sao phiên bản di động không hỗ trợ tính năng xxx?
+
+A. Đầu tiên cần làm rõ một điều là dù phiên bản di động có làm tốt thế nào thì trải nghiệm cũng chắc chắn kém xa so với phiên bản máy tính. Vì vậy, cá nhân tôi định vị phiên bản di động là: sử dụng cho các trường hợp khẩn cấp để xử lý tạm thời một số việc đơn giản. Việc thiết kế/tạo bài thuyết trình thực sự nên được thực hiện trên máy tính với đầy đủ chức năng. Nếu thực sự có nhu cầu đặc biệt trên di động, có thể thử mở chế độ máy tính (desktop mode) trên trình duyệt di động (tất nhiên trải nghiệm sẽ tệ hơn), hoặc các nhà phát triển có thể tự thực hiện phát triển thêm.
+
+#### Q. Về tính tương thích?
+
+A. Dự án này ưu tiên tương thích với Chrome và Firefox. Có thể tồn tại một số vấn đề tương thích trên Safari. Không tương thích với IE.
+
+#### Q. Tại sao không phải là một gói NPM?
+
+A. Mọi người đều biết rằng đối với một plugin/thư viện thông thường, một gói npm được đóng gói sẵn sẽ thuận tiện hơn để đưa vào các dự án hiện có. Nhưng PPTist rất đặc biệt, đây là một ứng dụng hoàn chỉnh chứ không phải là một phần của chương trình khác. Nếu bạn cần sử dụng PPTist, tôi tin rằng bạn nhất định sẽ cần thực hiện nhiều công việc phát triển tùy chỉnh trên nền tảng này, bao gồm nhưng không giới hạn ở: giao tiếp với back-end, các mẫu và tài liệu có sẵn, loại phần tử mới, sử dụng giải pháp khác để hiện thực các phần tử hiện có, chủ đề của riêng bạn, thay đổi phím tắt, v.v... chứ không chỉ là cài đặt một thứ giống hệt bản demo (việc này tuy thuận tiện nhưng không có ý nghĩa trong việc phát triển sản phẩm thực tế). Như đã liệt kê ở trên, có quá nhiều thứ cần được cấu hình, nếu là một plugin thì rất khó để cân đối hết được, hoặc chi phí phát triển sẽ rất lớn, hiện tại cá nhân tôi chưa thể gánh vác được.
+
+Do đó, cách làm đúng đắn khi phát triển dự án bằng PPTist là: kéo toàn bộ mã nguồn, cố gắng hiểu nó và dựa trên đó để cải tạo thành thứ của riêng bạn. Cộng đồng cũng không thiếu các dự án tương tự, ví dụ như [drawio](https://github.com/jgraph/drawio).
+
+#### Q. Về AI PPT
+
+A. Đầu tiên cần khẳng định, AIPPT không phải là trọng tâm của PPTist, bây giờ hay sau này đều không phải. Nó chỉ là một phần rất nhỏ trong số rất nhiều tính năng của PPTist, và là một phần tương đối đơn giản. Bạn có thể hiểu đây chỉ là một tính năng nhỏ "theo trend", tôi không muốn dựa hơi AI, nhưng vì quá nhiều người coi AI là thứ gì đó quá quan trọng và phức tạp nên tôi đã làm bản DEMO này (nó thực sự không phức tạp đến thế). Hiện tại tính năng này chỉ dùng để tham khảo, bên trong hiện thực logic tạo AIPPT cơ bản nhất: Tùy chỉnh mẫu + Kết hợp dữ liệu do AI tạo với mẫu + Thay thế hình ảnh minh họa. Để kiểm soát chi phí, hiện tại tôi chỉ có thể làm đến đây, nhưng để đạt được hiệu quả trong sản xuất, bạn còn cần làm nhiều hơn thế, ví dụ như thêm nhiều mẫu hơn, quy trình làm việc AI chi tiết hơn.
+
+Lưu ý: Việc thay thế hình ảnh minh họa chỉ cung cấp phương pháp chứ không cung cấp chức năng trình diễn thực tế, bạn cần tự cung cấp nguồn ảnh (ví dụ như AI tạo ảnh từ văn bản, tìm kiếm và khớp kho ảnh, v.v...).
+
+#### Q. Khác
+
+A. Ngoài ra cần nhấn mạnh rằng PPTist chỉ là một dự án mã nguồn mở chứ không phải là sản phẩm hướng đến người dùng thông thường. Nó chủ yếu cung cấp các giải pháp kỹ thuật, một số nhu cầu/tối ưu hóa mang tính sản phẩm hóa vẫn cần các nhà phát triển tự mình hiện thực và hoàn thiện.
+
+---
+
 ## 常见问题
+
 
 #### Q. 为什么xxx快捷键没有作用？
 

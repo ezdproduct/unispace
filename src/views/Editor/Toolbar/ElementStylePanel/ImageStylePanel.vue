@@ -8,11 +8,11 @@
     <ElementFlip />
 
     <ButtonGroup class="row" passive>
-      <Button first style="width: calc(100% / 6 * 5);" @click="clipImage()"><IconTailoring /> 裁剪图片</Button>
+      <Button first style="width: calc(100% / 6 * 5);" @click="clipImage()"><IconTailoring /> {{ $t('toolbar.clipImage') }}</Button>
       <Popover trigger="click" v-model:value="clipPanelVisible" style="width: calc(100% / 6);">
         <template #content>
           <div class="clip">
-            <div class="title">按形状：</div>
+            <div class="title">{{ $t('toolbar.byShape') }}：</div>
             <div class="shape-clip">
               <div 
                 class="shape-clip-item" 
@@ -25,7 +25,7 @@
             </div>
 
             <template v-for="typeItem in ratioClipOptions" :key="typeItem.label">
-              <div class="title" v-if="typeItem.label">按{{typeItem.label}}：</div>
+              <div class="title" v-if="typeItem.label">{{ $t('toolbar.by') }}{{typeItem.label}}：</div>
               <ButtonGroup class="row">
                 <Button 
                   style="flex: 1;"
@@ -42,7 +42,7 @@
     </ButtonGroup>
     
     <div class="row">
-      <div style="width: 40%;">圆角半径：</div>
+      <div style="width: 40%;">{{ $t('toolbar.borderRadius') }}：</div>
       <NumberInput 
         :value="handleImageElement.radius || 0" 
         @update:value="value => updateImage({ radius: value })" 
@@ -61,15 +61,16 @@
     <Divider />
     
     <FileInput @change="files => replaceImage(files)">
-      <Button class="full-width-btn"><IconTransform /> 替换图片</Button>
+      <Button class="full-width-btn"><IconTransform /> {{ $t('toolbar.replaceImage') }}</Button>
     </FileInput>
-    <Button class="full-width-btn" @click="resetImage()"><IconUndo /> 重置样式</Button>
-    <Button class="full-width-btn" @click="setBackgroundImage()"><IconTheme /> 设为背景</Button>
+    <Button class="full-width-btn" @click="resetImage()"><IconUndo /> {{ $t('toolbar.resetStyle') }}</Button>
+    <Button class="full-width-btn" @click="setBackgroundImage()"><IconTheme /> {{ $t('toolbar.setAsBackground') }}</Button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { type Ref, ref } from 'vue'
+import { type Ref, ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useMainStore, useSlidesStore } from '@/store'
 import type { PPTImageElement, SlideBackground } from '@/types/slides'
@@ -90,15 +91,15 @@ import Popover from '@/components/Popover.vue'
 import NumberInput from '@/components/NumberInput.vue'
 
 const shapeClipPathOptions = CLIPPATHS
-const ratioClipOptions = [
+const ratioClipOptions = computed(() => [
   {
-    label: '纵横比（正方形）',
+    label: t('toolbar.aspectRatioSquare'),
     children: [
       { key: '1:1', ratio: 1 / 1 },
     ],
   },
   {
-    label: '纵横比（纵向）',
+    label: t('toolbar.aspectRatioPortrait'),
     children: [
       { key: '2:3', ratio: 3 / 2 },
       { key: '3:4', ratio: 4 / 3 },
@@ -107,7 +108,7 @@ const ratioClipOptions = [
     ],
   },
   {
-    label: '纵横比（横向）',
+    label: t('toolbar.aspectRatioLandscape'),
     children: [
       { key: '3:2', ratio: 2 / 3 },
       { key: '4:3', ratio: 3 / 4 },
@@ -121,8 +122,9 @@ const ratioClipOptions = [
       { key: '16:10', ratio: 10 / 16 },
     ],
   },
-]
+])
 
+const { t } = useI18n()
 const mainStore = useMainStore()
 const slidesStore = useSlidesStore()
 const { handleElement, handleElementId } = storeToRefs(mainStore)

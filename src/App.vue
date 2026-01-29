@@ -4,11 +4,12 @@
     <Editor v-else-if="_isPC" />
     <Mobile v-else />
   </template>
-  <FullscreenSpin tip="数据初始化中，请稍等 ..." v-else  loading :mask="false" />
+  <FullscreenSpin :tip="$t('app.initializing')" v-else  loading :mask="false" />
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useScreenStore, useMainStore, useSnapshotStore, useSlidesStore } from '@/store'
 import { LOCALSTORAGE_KEY_DISCARDED_DB } from '@/configs/storage'
@@ -29,6 +30,12 @@ const snapshotStore = useSnapshotStore()
 const { databaseId } = storeToRefs(mainStore)
 const { slides } = storeToRefs(slidesStore)
 const { screening } = storeToRefs(useScreenStore())
+const { t, locale } = useI18n()
+
+watch([locale, () => slidesStore.title], () => {
+  const title = slidesStore.title || t('header.untitledSubject')
+  document.title = `${title} - ${t('title')}`
+}, { immediate: true })
 
 if (import.meta.env.MODE !== 'development') {
   window.onbeforeunload = () => false

@@ -9,15 +9,16 @@
         @click="updateTurningMode(item.value)"
       >
         <div :class="['animation-block', item.value]">P</div>
-        <div class="animation-text">{{item.label}}</div>
+        <div class="animation-text">{{ $t(`animation.${item.value}`) }}</div>
       </div>
     </div>
-    <Button style="width: 100%;" @click="applyAllSlide()"><IconCheck /> 应用到全部</Button>
+    <Button style="width: 100%;" @click="applyAllSlide()"><IconCheck /> {{ $t('toolbar.applyBackgroundAll') }}</Button>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import type { TurningMode } from '@/types/slides'
@@ -26,6 +27,7 @@ import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import message from '@/utils/message'
 import Button from '@/components/Button.vue'
 
+const { t } = useI18n()
 const slidesStore = useSlidesStore()
 const { slides, currentSlide } = storeToRefs(slidesStore)
 
@@ -51,7 +53,7 @@ const applyAllSlide = () => {
     }
   })
   slidesStore.setSlides(newSlides)
-  message.success('已应用到全部')
+  message.success(t('toolbar.appliedAll'))
   addHistorySnapshot()
 }
 </script>

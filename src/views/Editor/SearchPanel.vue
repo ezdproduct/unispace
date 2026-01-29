@@ -8,36 +8,37 @@
   >
     <div class="close-btn" @click="close()" @mousedown.stop><IconClose /></div>
     <Tabs 
-      :tabs="tabs" 
+      :tabs="computedTabs" 
       v-model:value="type" 
     />
 
     <div class="content" :class="type" @mousedown.stop>
-      <Input class="input" v-model:value="searchWord" placeholder="输入查找内容" @enter="searchNext()" ref="searchInpRef">
+      <Input class="input" v-model:value="searchWord" :placeholder="$t('search.findPlaceholder')" @enter="searchNext()" ref="searchInpRef">
         <template #suffix>
           <span class="count">{{searchIndex + 1}}/{{searchResults.length}}</span>
           <Divider type="vertical" />
           <span class="ignore-case"
             :class="{ 'active': modifiers === 'g' }"
-            v-tooltip="'忽略大小写'"
+            v-tooltip="$t('search.ignoreCase')"
             @click="toggleModifiers()"
           >Aa</span>
           <Divider type="vertical" />
-          <IconLeft class="next-btn left" @click="searchPrev()" v-tooltip="'上一个'" />
-          <IconRight class="next-btn right" @click="searchNext()" v-tooltip="'下一个'" />
+          <IconLeft class="next-btn left" @click="searchPrev()" v-tooltip="$t('search.prev')" />
+          <IconRight class="next-btn right" @click="searchNext()" v-tooltip="$t('search.next')" />
         </template>
       </Input>
-      <Input class="input" v-model:value="replaceWord" placeholder="输入替换内容" @enter="replace()" v-if="type === 'replace'"></Input>
+      <Input class="input" v-model:value="replaceWord" :placeholder="$t('search.replacePlaceholder')" @enter="replace()" v-if="type === 'replace'"></Input>
       <div class="footer" v-if="type === 'replace'">
-        <Button :disabled="!searchWord" style="margin-left: 5px;" @click="replace()">替换</Button>
-        <Button :disabled="!searchWord" type="primary" style="margin-left: 5px;" @click="replaceAll()">全部替换</Button>
+        <Button :disabled="!searchWord" style="margin-left: 5px;" @click="replace()">{{ $t('search.replace') }}</Button>
+        <Button :disabled="!searchWord" type="primary" style="margin-left: 5px;" @click="replaceAll()">{{ $t('search.replaceAll') }}</Button>
       </div>
     </div>
   </MoveablePanel>
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, ref, watch, useTemplateRef } from 'vue'
+import { nextTick, onMounted, ref, watch, useTemplateRef, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useMainStore } from '@/store'
 import useSearch from '@/hooks/useSearch'
 import MoveablePanel from '@/components/MoveablePanel.vue'
@@ -67,11 +68,12 @@ const {
   toggleModifiers,
 } = useSearch()
 
+const { t } = useI18n()
 const type = ref<TypeKey>('search')
-const tabs: TabItem[] = [
-  { key: 'search', label: '查找' },
-  { key: 'replace', label: '替换' },
-]
+const computedTabs = computed<TabItem[]>(() => [
+  { key: 'search', label: t('search.find') },
+  { key: 'replace', label: t('search.replace') },
+])
 
 const close = () => {
   mainStore.setSearchPanelState(false)

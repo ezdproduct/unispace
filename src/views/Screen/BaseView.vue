@@ -9,7 +9,7 @@
       @wheel="($event: WheelEvent) => mousewheelListener($event)"
       @touchstart="($event: TouchEvent) => touchStartListener($event)"
       @touchend="($event: TouchEvent) => touchEndListener($event)"
-      v-contextmenu="contextmenus"
+      v-contextmenu="computedContextmenus"
     />
 
     <SlideThumbnails 
@@ -41,14 +41,14 @@
       @mouseenter="rightToolsVisible = true"
     >
       <div class="content">
-        <div class="tool-btn page-number" @click="slideThumbnailModelVisible = true">幻灯片 {{slideIndex + 1}} / {{slides.length}}</div>
-        <IconWrite class="tool-btn" v-tooltip="'画笔工具'" @click="writingBoardToolVisible = true" />
-        <IconMagic class="tool-btn" v-tooltip="'激光笔'" :class="{ 'active': laserPen }" @click="laserPen = !laserPen" />
-        <IconStopwatchStart class="tool-btn" v-tooltip="'计时器'" :class="{ 'active': timerlVisible }" @click="timerlVisible = !timerlVisible" />
-        <IconListView class="tool-btn" v-tooltip="'演讲者视图'" @click="changeViewMode('presenter')" />
-        <IconOffScreenOne class="tool-btn" v-tooltip="'退出全屏'" v-if="fullscreenState" @click="manualExitFullscreen()" />
-        <IconFullScreenOne class="tool-btn" v-tooltip="'进入全屏'" v-else @click="enterFullscreen()" />
-        <IconPower class="tool-btn" v-tooltip="'结束放映'" @click="exitScreening()" />
+        <div class="tool-btn page-number" @click="slideThumbnailModelVisible = true">{{ $t('screening.slide') }} {{slideIndex + 1}} / {{slides.length}}</div>
+        <IconWrite class="tool-btn" v-tooltip="$t('screening.writingBoardTool')" @click="writingBoardToolVisible = true" />
+        <IconMagic class="tool-btn" v-tooltip="$t('screening.laserPen')" :class="{ 'active': laserPen }" @click="laserPen = !laserPen" />
+        <IconStopwatchStart class="tool-btn" v-tooltip="$t('screening.timer')" :class="{ 'active': timerlVisible }" @click="timerlVisible = !timerlVisible" />
+        <IconListView class="tool-btn" v-tooltip="$t('screening.presenterView')" @click="changeViewMode('presenter')" />
+        <IconOffScreenOne class="tool-btn" v-tooltip="$t('screening.exitFullscreen')" v-if="fullscreenState" @click="manualExitFullscreen()" />
+        <IconFullScreenOne class="tool-btn" v-tooltip="$t('screening.enterFullscreen')" v-else @click="enterFullscreen()" />
+        <IconPower class="tool-btn" v-tooltip="$t('screening.exit')" @click="exitScreening()" />
       </div>
     </div>
 
@@ -57,7 +57,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useSlidesStore } from '@/store'
 import type { ContextmenuItem } from '@/components/Contextmenu/types'
@@ -108,89 +109,90 @@ const writingBoardToolVisible = ref(false)
 const timerlVisible = ref(false)
 const slideThumbnailModelVisible = ref(false)
 const bottomThumbnailsVisible = ref(false)
+const { t } = useI18n()
 const laserPen = ref(false)
 
-const contextmenus = (): ContextmenuItem[] => {
+const computedContextmenus = (): ContextmenuItem[] => {
   return [
     {
-      text: '上一页',
+      text: t('screening.prev'),
       subText: '↑ ←',
       disable: slideIndex.value <= 0,
       handler: () => turnPrevSlide(),
     },
     {
-      text: '下一页',
+      text: t('screening.next'),
       subText: '↓ →',
       disable: slideIndex.value >= slides.value.length - 1,
       handler: () => turnNextSlide(),
     },
     {
-      text: '第一页',
+      text: t('screening.first'),
       disable: slideIndex.value === 0,
       handler: () => turnSlideToIndex(0),
     },
     {
-      text: '最后一页',
+      text: t('screening.last'),
       disable: slideIndex.value === slides.value.length - 1,
       handler: () => turnSlideToIndex(slides.value.length - 1),
     },
     { divider: true },
     {
-      text: autoPlayTimer.value ? '取消自动放映' : '自动放映',
+      text: autoPlayTimer.value ? t('screening.stopAutoPlay') : t('screening.autoPlay'),
       handler: autoPlayTimer.value ? closeAutoPlay : autoPlay,
       children: [
         {
-          text: '2.5秒',
+          text: `2.5${t('screening.second')}`,
           subText: autoPlayInterval.value === 2500 ? '√' : '',
           handler: () => setAutoPlayInterval(2500),
         },
         {
-          text: '5秒',
+          text: `5${t('screening.second')}`,
           subText: autoPlayInterval.value === 5000 ? '√' : '',
           handler: () => setAutoPlayInterval(5000),
         },
         {
-          text: '7.5秒',
+          text: `7.5${t('screening.second')}`,
           subText: autoPlayInterval.value === 7500 ? '√' : '',
           handler: () => setAutoPlayInterval(7500),
         },
         {
-          text: '10秒',
+          text: `10${t('screening.second')}`,
           subText: autoPlayInterval.value === 10000 ? '√' : '',
           handler: () => setAutoPlayInterval(10000),
         },
       ],
     },
     {
-      text: '循环放映',
+      text: t('screening.loopPlay'),
       subText: loopPlay.value ? '√' : '',
       handler: () => setLoopPlay(!loopPlay.value),
     },
     { divider: true },
     {
-      text: '显示工具栏',
+      text: t('screening.showToolbar'),
       handler: () => rightToolsVisible.value = true,
     },
     {
-      text: '查看所有幻灯片',
+      text: t('screening.showAllSlides'),
       handler: () => slideThumbnailModelVisible.value = true,
     },
     {
-      text: '触底显示缩略图',
+      text: t('screening.bottomThumbnails'),
       subText: bottomThumbnailsVisible.value ? '√' : '',
       handler: () => bottomThumbnailsVisible.value = !bottomThumbnailsVisible.value,
     },
     {
-      text: '画笔工具',
+      text: t('screening.writingBoardTool'),
       handler: () => writingBoardToolVisible.value = true,
     },
     {
-      text: '演讲者视图',
+      text: t('screening.presenterView'),
       handler: () => props.changeViewMode('presenter'),
     },
     { divider: true },
     {
-      text: '结束放映',
+      text: t('screening.exit'),
       subText: 'ESC',
       handler: exitScreening,
     },

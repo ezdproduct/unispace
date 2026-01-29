@@ -2,18 +2,18 @@
   <div class="export-pptist-dialog">
     <div class="configs">
       <div class="row">
-        <div class="title">导出范围：</div>
+        <div class="title">{{ $t('export.range') }}</div>
         <RadioGroup
           class="config-item"
           v-model:value="rangeType"
         >
-          <RadioButton style="width: 33.33%;" value="all">全部</RadioButton>
-          <RadioButton style="width: 33.33%;" value="current">当前页</RadioButton>
-          <RadioButton style="width: 33.33%;" value="custom">自定义</RadioButton>
+          <RadioButton style="width: 33.33%;" value="all">{{ $t('export.rangeAll') }}</RadioButton>
+          <RadioButton style="width: 33.33%;" value="current">{{ $t('export.rangeCurrent') }}</RadioButton>
+          <RadioButton style="width: 33.33%;" value="custom">{{ $t('export.rangeCustom') }}</RadioButton>
         </RadioGroup>
       </div>
       <div class="row" v-if="rangeType === 'custom'">
-        <div class="title" :data-range="`（${range[0]} ~ ${range[1]}）`">自定义范围：</div>
+        <div class="title" :data-range="rangeSubtitle">{{ $t('export.customRange') }}</div>
         <Slider
           class="config-item"
           range
@@ -24,12 +24,12 @@
         />
       </div>
       <div class="tip">
-        提示：.pptist 是本应用的特有文件后缀，支持将该类型的文件导入回应用中。
+        {{ $t('export.pptistTip') }}
       </div>
     </div>
     <div class="btns">
-      <Button class="btn export" type="primary" @click="exportSpecificFile(selectedSlides)"><IconDownload /> 导出 PPTIST 文件</Button>
-      <Button class="btn close" @click="emit('close')">关闭</Button>
+      <Button class="btn export" type="primary" @click="exportSpecificFile(selectedSlides)"><IconDownload /> {{ $t('export.pptist') }}</Button>
+      <Button class="btn close" @click="emit('close')">{{ $t('export.close') }}</Button>
     </div>
   </div>
 </template>
@@ -55,6 +55,8 @@ const { exportSpecificFile } = useExport()
 
 const rangeType = ref<'all' | 'current' | 'custom'>('all')
 const range = ref<[number, number]>([1, slides.value.length])
+
+const rangeSubtitle = computed(() => `（${range.value[0]} ~ ${range.value[1]}）`)
 
 const selectedSlides = computed(() => {
   if (rangeType.value === 'all') return slides.value

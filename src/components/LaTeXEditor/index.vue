@@ -3,10 +3,10 @@
     <div class="container">
       <div class="left">
         <div class="input-area">
-          <TextArea v-model:value="latex" placeholder="输入 LaTeX 公式" ref="textAreaRef" />
+          <TextArea v-model:value="latex" :placeholder="$t('latexEditor.inputPlaceholder')" ref="textAreaRef" />
         </div>
         <div class="preview">
-          <div class="placeholder" v-if="!latex">公式预览</div>
+          <div class="placeholder" v-if="!latex">{{ $t('latexEditor.previewPlaceholder') }}</div>
           <div class="preview-content" v-else>
             <FormulaContent
               :width="518"
@@ -18,7 +18,7 @@
       </div>
       <div class="right">
         <Tabs 
-          :tabs="tabs" 
+          :tabs="computedTabs" 
           v-model:value="toolbarState" 
           card
         />
@@ -52,14 +52,15 @@
       </div>
     </div>
     <div class="footer">
-      <Button class="btn" @click="emit('close')">取消</Button>
-      <Button class="btn" type="primary" @click="update()">确定</Button>
+      <Button class="btn" @click="emit('close')">{{ $t('tableGenerator.cancel') }}</Button>
+      <Button class="btn" type="primary" @click="update()">{{ $t('tableGenerator.confirm') }}</Button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, useTemplateRef } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { hfmath } from './hfmath'
 import { FORMULA_LIST, SYMBOL_LIST } from '@/configs/latex'
 import message from '@/utils/message'
@@ -75,10 +76,12 @@ interface TabItem {
   label: string
 }
 
-const tabs: TabItem[] = [
-  { label: '常用符号', key: 'symbol' },
-  { label: '预置公式', key: 'formula' },
-]
+const { t } = useI18n()
+
+const computedTabs = computed<TabItem[]>(() => [
+  { label: t('latexEditor.commonSymbols'), key: 'symbol' },
+  { label: t('latexEditor.presetFormulas'), key: 'formula' },
+])
 
 interface LatexResult {
   latex: string
@@ -123,7 +126,7 @@ onMounted(() => {
 })
 
 const update = () => {
-  if (!latex.value) return message.error('公式不能为空')
+  if (!latex.value) return message.error(t('latexEditor.emptyError'))
 
   const eq = new hfmath(latex.value)
   const pathd = eq.pathd({})

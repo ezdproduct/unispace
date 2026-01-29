@@ -1,7 +1,7 @@
 <template>
   <div class="link-dialog">
     <Tabs 
-      :tabs="tabs" 
+      :tabs="computedTabs" 
       v-model:value="type"
       :tabsStyle="{ marginBottom: '20px' }" 
     />
@@ -11,7 +11,7 @@
       ref="inputRef"
       v-if="type === 'web'" 
       v-model:value="address" 
-      placeholder="请输入网页链接地址"
+      :placeholder="$t('linkDialog.addressPlaceholder')"
       @enter="save()"
     />
 
@@ -23,19 +23,20 @@
     />
 
     <div class="preview" v-if="type === 'slide' && selectedSlide">
-      <div>预览：</div>
+      <div>{{ $t('linkDialog.preview') }}</div>
       <ThumbnailSlide class="thumbnail" :slide="selectedSlide" :size="500" />
     </div>
 
     <div class="btns">
-      <Button @click="emit('close')" style="margin-right: 10px;">取消</Button>
-      <Button type="primary" @click="save()">确认</Button>
+      <Button @click="emit('close')" style="margin-right: 10px;">{{ $t('tableGenerator.cancel') }}</Button>
+      <Button type="primary" @click="save()">{{ $t('tableGenerator.confirm') }}</Button>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, useTemplateRef, nextTick, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { storeToRefs } from 'pinia'
 import { useMainStore, useSlidesStore } from '@/store'
 import type { ElementLinkType, PPTElementLink } from '@/types/slides'
@@ -65,9 +66,11 @@ const address = ref('')
 const slideId = ref('')
 const inputRef = useTemplateRef<InstanceType<typeof Input>>('inputRef')
 
+const { t } = useI18n()
+
 const slideOptions = computed(() => {
   return slides.value.map((item, index) => ({
-    label: `幻灯片 ${index + 1}`,
+    label: t('linkDialog.slideLabel', { index: index + 1 }),
     value: item.id,
     disabled: currentSlide.value.id === item.id,
   }))
@@ -81,9 +84,9 @@ const selectedSlide = computed(() => {
   return slides.value.find(item => item.id === slideId.value) || null
 })
 
-const tabs = computed<TabItem[]>(() => [
-  { key: 'web', label: '网页链接' },
-  { key: 'slide', label: '幻灯片页面', disabled: slides.value.length <= 1 },
+const computedTabs = computed<TabItem[]>(() => [
+  { key: 'web', label: t('linkDialog.web') },
+  { key: 'slide', label: t('linkDialog.slide'), disabled: slides.value.length <= 1 },
 ])
 
 const { setLink } = useLink()

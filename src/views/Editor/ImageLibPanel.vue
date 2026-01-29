@@ -10,12 +10,12 @@
       display: 'flex',
       flexDirection: 'column',
     }"
-    title="图片库（来自 pexels.com）" 
+    :title="$t('imageLib.title')" 
     @close="close()"
   >
-    <div class="container" v-loading="{ state: loading, text: '加载中...' }">
+    <div class="container" v-loading="{ state: loading, text: $t('imageLib.loading') }">
       <div class="tools">
-        <Input class="input" v-model:value="searchWord" placeholder="搜索图片" @enter="search()">
+        <Input class="input" v-model:value="searchWord" :placeholder="$t('imageLib.search')" @enter="search()">
           <template #prefix>
             <Popover class="more-icon" trigger="click" v-model:value="orientationVisible">
               <template #content>
@@ -25,7 +25,7 @@
                   center
                   v-for="item in orientationOptions"
                   :key="item.key"
-                  @click="setOrientation(item.key); orientationVisible = false"
+                  @click="setOrientation(item.key as Orientation); orientationVisible = false"
                 >{{ item.label }}</PopoverMenuItem>
               </template>
               <div class="search-orientation">{{ orientationMap[orientation] }} <IconDown :size="14" /></div>
@@ -48,7 +48,7 @@
           <div class="img-item">
             <img :src="props.src">
             <div class="mask">
-              <Button type="primary" size="small" @click="createImageElement(props.src)">插入</Button>
+              <Button type="primary" size="small" @click="createImageElement(props.src)">{{ $t('imageLib.insert') }}</Button>
             </div>
           </div>
         </template>
@@ -58,7 +58,8 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import api from '@/services'
 import { useMainStore } from '@/store/main'
 import useCreateElement from '@/hooks/useCreateElement'
@@ -92,33 +93,33 @@ const perPage = ref(50)
 const total = ref(0)
 const max = ref(500)
 const orientation = ref<Orientation>('all')
-const orientationOptions: {
-  key: Orientation
-  label: string
-}[] = [
-  { key: 'all', label: '全部' },
-  { key: 'landscape', label: '横向' },
-  { key: 'portrait', label: '纵向' },
-  { key: 'square', label: '方形' },
-]
-const orientationMap: Record<string, string> = {
-  'all': '全部',
-  'landscape': '横向',
-  'portrait': '纵向',
-  'square': '方形',
-}
+
+const { t } = useI18n()
+
+const orientationOptions = computed(() => [
+  { key: 'all', label: t('imageLib.all') },
+  { key: 'landscape', label: t('imageLib.landscape') },
+  { key: 'portrait', label: t('imageLib.portrait') },
+  { key: 'square', label: t('imageLib.square') },
+])
+const orientationMap = computed<Record<string, string>>(() => ({
+  'all': t('imageLib.all'),
+  'landscape': t('imageLib.landscape'),
+  'portrait': t('imageLib.portrait'),
+  'square': t('imageLib.square'),
+}))
 
 const close = () => {
   mainStore.setImageLibPanelState(false)
 }
 
 onMounted(() => {
-  search('风景')
+  search(t('imageLib.defaultQuery'))
 })
 
 const search = (q?: string) => {  
   const query = q || searchWord.value
-  if (!query) return message.error('请输入搜索关键词')
+  if (!query) return message.error(t('imageLib.searchError'))
 
   loading.value = true
   page.value = 1
@@ -153,7 +154,7 @@ const loadMore = () => {
   page.value += 1
 
   api.searchImage({
-    query: searchWord.value || '风景',
+    query: searchWord.value || t('imageLib.defaultQuery'),
     per_page: perPage.value,
     page: page.value,
     orientation: orientation.value,

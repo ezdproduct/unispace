@@ -22,17 +22,17 @@
     </div>
     <div class="configs">
       <div class="row">
-        <div class="title">导出范围：</div>
+        <div class="title">{{ $t('export.range') }}</div>
         <RadioGroup
           class="config-item"
           v-model:value="rangeType"
         >
-          <RadioButton style="width: 50%;" value="all">全部</RadioButton>
-          <RadioButton style="width: 50%;" value="current">当前页</RadioButton>
+          <RadioButton style="width: 50%;" value="all">{{ $t('export.rangeAll') }}</RadioButton>
+          <RadioButton style="width: 50%;" value="current">{{ $t('export.rangeCurrent') }}</RadioButton>
         </RadioGroup>
       </div>
       <div class="row">
-        <div class="title">每页数量：</div>
+        <div class="title">{{ $t('export.pdfCount') }}</div>
         <Select 
           class="config-item"
           v-model:value="count"
@@ -44,19 +44,19 @@
         />
       </div>
       <div class="row">
-        <div class="title">边缘留白：</div>
+        <div class="title">{{ $t('export.pdfPadding') }}</div>
         <div class="config-item">
           <Switch v-model:value="padding" />
         </div>
       </div>
       <div class="tip">
-        提示：若打印预览与实际样式不一致，请在弹出的打印窗口中勾选【背景图形】选项。
+        {{ $t('export.pdfTip') }}
       </div>
     </div>
 
     <div class="btns">
-      <Button class="btn export" type="primary" @click="expPDF()"><IconDownload /> 打印 / 导出 PDF</Button>
-      <Button class="btn close" @click="emit('close')">关闭</Button>
+      <Button class="btn export" type="primary" @click="expPDF()"><IconDownload /> {{ $t('export.pdf') }}</Button>
+      <Button class="btn close" @click="emit('close')">{{ $t('export.close') }}</Button>
     </div>
   </div>
 </template>

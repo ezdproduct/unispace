@@ -5,7 +5,7 @@
     @wheel="$event => handleMousewheelCanvas($event)"
     @mousedown="$event => handleClickBlankArea($event)"
     @dblclick="$event => handleDblClick($event)"
-    v-contextmenu="contextmenus"
+    v-contextmenu="computedContextmenus"
     v-click-outside="removeEditorAreaFocus"
   >
     <ElementCreateSelection
@@ -97,7 +97,8 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, onUnmounted, provide, ref, watch, watchEffect, useTemplateRef } from 'vue'
+import { nextTick, onMounted, onUnmounted, provide, ref, watch, watchEffect, useTemplateRef, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { throttle } from 'lodash'
 import { storeToRefs } from 'pinia'
 import { useMainStore, useSlidesStore, useKeyboardStore } from '@/store'
@@ -287,56 +288,58 @@ const insertCustomShape = (data: CreateCustomShapeData) => {
   mainStore.setCreatingCustomShapeState(false)
 }
 
-const contextmenus = (): ContextmenuItem[] => {
+const { t } = useI18n()
+
+const computedContextmenus = (): ContextmenuItem[] => {
   return [
     {
-      text: '粘贴',
+      text: t('canvas.paste'),
       subText: 'Ctrl + V',
       handler: pasteElement,
     },
     {
-      text: '全选',
+      text: t('canvas.selectAll'),
       subText: 'Ctrl + A',
       handler: selectAllElements,
     },
     {
-      text: '标尺',
+      text: t('canvas.ruler'),
       subText: showRuler.value ? '√' : '',
       handler: toggleRuler,
     },
     {
-      text: '网格线',
+      text: t('canvas.gridLines'),
       handler: () => mainStore.setGridLineSize(gridLineSize.value ? 0 : 50),
       children: [
         {
-          text: '无',
+          text: t('canvas.gridLinesNone'),
           subText: gridLineSize.value === 0 ? '√' : '',
           handler: () => mainStore.setGridLineSize(0),
         },
         {
-          text: '小',
+          text: t('canvas.gridLinesSmall'),
           subText: gridLineSize.value === 25 ? '√' : '',
           handler: () => mainStore.setGridLineSize(25),
         },
         {
-          text: '中',
+          text: t('canvas.gridLinesMedium'),
           subText: gridLineSize.value === 50 ? '√' : '',
           handler: () => mainStore.setGridLineSize(50),
         },
         {
-          text: '大',
+          text: t('canvas.gridLinesLarge'),
           subText: gridLineSize.value === 100 ? '√' : '',
           handler: () => mainStore.setGridLineSize(100),
         },
       ],
     },
     {
-      text: '重置当前页',
+      text: t('canvas.resetSlide'),
       handler: deleteAllElements,
     },
     { divider: true },
     {
-      text: '幻灯片放映',
+      text: t('canvas.showScreening'),
       subText: 'F5',
       handler: enterScreeningFromStart,
     },

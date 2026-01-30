@@ -10,7 +10,7 @@
         @mouseenter="handleMouseEnter(item.value)"
         @mouseleave="handleMouseLeave()"
       >
-        <div :class="['animation-block', item.value, { 'auto-play': autoPlayItem === item.value }]">P</div>
+        <div :class="['animation-block', item.value]"></div>
         <div class="animation-text">{{ $t(`animation.${item.value}`) }}</div>
       </div>
     </div>

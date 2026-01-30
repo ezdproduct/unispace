@@ -126,7 +126,7 @@ const handleMouseLeave = () => {
   border: 1px solid rgba(255, 255, 255, 0.1);
 
   @mixin elAnimation($animationType) {
-    content: 'Canva';
+    content: 'PPT';
     width: 102%; // Slightly larger to cover borders nicely
     height: 102%;
     position: absolute;

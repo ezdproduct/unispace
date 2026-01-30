@@ -435,9 +435,10 @@ const openImageLibPanel = () => {
 }
 
 .right-handler {
-  gap: 12px;
+  gap: 2px; // Minimal gap
   flex: 1;
   justify-content: flex-end;
+  padding-right: 24px; // Move away from the right edge as requested
 
   .viewport-size-adaptation {
     font-size: 18px;
@@ -445,17 +446,18 @@ const openImageLibPanel = () => {
 }
 
 .scale-text {
-  font-size: 12px;
-  min-width: 45px;
+  font-size: 11px;
+  min-width: 32px; // Even more compact
   text-align: center;
   color: #FFFFFF;
-  margin: 0 4px;
+  margin: 0;
+  user-select: none;
 }
 
 .zoom-slider-container {
   padding: 0;
-  width: 100px; // Shorter to avoid overflow
-  margin: 0 10px;
+  width: 70px; // Compact slider
+  margin: 0 4px;
   
   ::v-deep(.slider-line) {
     height: 2px !important;

@@ -409,7 +409,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     align-items: center;
     cursor: pointer;
     transition: all $transitionDelay;
-    box-shadow: 0 4px 10px rgba(0, 196, 204, 0.3);
+    box-shadow: 0 4px 10px rgba(116, 141, 174, 0.3);
 
     &:hover {
       scale: 1.1;
@@ -428,7 +428,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     cursor: pointer;
     
     &:hover {
-      color: $accentTeal;
+      color: $themeColor;
     }
   }
 
@@ -440,9 +440,9 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
 .add-slide-fixed {
   height: 40px;
   margin: 12px;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(0, 0, 0, 0.03);
   color: $textColor;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid $borderColor;
   border-radius: $borderRadiusPill;
   display: flex;
   justify-content: center;
@@ -452,8 +452,8 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   transition: all $transitionDelay;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
   }
 
   .icon {
@@ -482,17 +482,17 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
 
   &.active {
     .label {
-      color: $accentTeal;
+      color: $themeColor;
       font-weight: 700;
     }
     .thumbnail {
-      outline-color: $accentTeal;
-      box-shadow: 0 0 15px rgba(0, 196, 204, 0.2);
+      outline-color: $themeColor;
+      box-shadow: 0 0 15px rgba(116, 141, 174, 0.2);
     }
   }
   &.selected {
     .thumbnail {
-      outline-color: $accentTeal;
+      outline-color: $themeColor;
     }
   }
 
@@ -527,7 +527,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   line-height: 32px;
   text-align: center;
   color: $textColorSecondary;
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.05);
 }
 
 .section-title {

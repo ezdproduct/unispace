@@ -1,19 +1,19 @@
-$themeColor: #00c4cc; // Canva-like Teal/Blue
-$themeHoverColor: #00a8ad;
-$charcoal: #18191b; // Canva Dark
-$canvaBlurryGray: rgba(255, 255, 255, 0.1);
-$textColor: #ffffff;
-$textColorSecondary: #a7acb1;
-$borderColor: rgba(255, 255, 255, 0.1);
-$lightGray: #252525;
-$sidebarBg: #18191b;
-$headerBg: #18191b;
-$surfaceBg: #252525;
-$accentColor: #7d2ae8; // Canva Purple
-$accentTeal: #00c4cc;
-$shareBtnBg: rgba(255, 255, 255, 0.1);
+$themeColor: #748DAE; // Steel Blue
+$themeHoverColor: #9ECAD6; // Sky Pastel
+$charcoal: #333333;
+$canvaBlurryGray: rgba(0, 0, 0, 0.05);
+$textColor: #333333;
+$textColorSecondary: #717171;
+$borderColor: rgba(0, 0, 0, 0.08);
+$lightGray: #ffffff; // Background containing slide (Pure White)
+$sidebarBg: #FFEAEA; // Soft Shell
+$headerBg: #FFEAEA; // Soft Shell
+$surfaceBg: #FFEAEA; // Soft Shell
+$accentColor: #F5CBCB; // Dusty Rose
+$accentTeal: #9ECAD6; // Sky Pastel
+$shareBtnBg: rgba(0, 0, 0, 0.05);
 
-$slideGradient: linear-gradient(135deg, #0288D1 0%, #BFDBFE 100%);
+$slideGradient: linear-gradient(135deg, #748DAE 0%, #9ECAD6 100%);
 
 $boxShadow: 0 4px 6px -1px rgba(0, 0, 0, .3), 0 2px 4px -2px rgba(0, 0, 0, .3);
 

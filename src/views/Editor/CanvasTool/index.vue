@@ -306,7 +306,7 @@ const openImageLibPanel = () => {
 .divider {
   width: 1px;
   height: 24px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: $borderColor;
   margin: 0 12px;
 }
 
@@ -352,13 +352,13 @@ const openImageLibPanel = () => {
     }
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #fff;
+      background-color: rgba(0, 0, 0, 0.05);
+      color: $themeColor;
     }
 
     &.active {
-      background-color: rgba(255, 255, 255, 0.15);
-      color: #fff;
+      background-color: rgba(0, 0, 0, 0.08);
+      color: $themeColor;
     }
 
     &.group-btn {
@@ -373,7 +373,7 @@ const openImageLibPanel = () => {
         border-radius: $borderRadius 0 0 $borderRadius;
         
         &:hover {
-          background-color: rgba(255, 255, 255, 0.05);
+          background-color: rgba(0, 0, 0, 0.03);
         }
       }
 
@@ -387,7 +387,7 @@ const openImageLibPanel = () => {
         border-radius: 0 $borderRadius $borderRadius 0;
 
         &:hover {
-          background-color: rgba(255, 255, 255, 0.05);
+          background-color: rgba(0, 0, 0, 0.03);
         }
       }
     }
@@ -412,8 +412,8 @@ const openImageLibPanel = () => {
   }
 
   &:not(.disable):hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: $themeColor;
   }
   
   &.active {
@@ -440,7 +440,7 @@ const openImageLibPanel = () => {
   ::v-deep(.slider-dot) {
     width: 12px !important;
     height: 12px !important;
-    background-color: #fff !important;
+    background-color: $themeColor !important;
     border: none !important;
     top: -5px !important;
   }

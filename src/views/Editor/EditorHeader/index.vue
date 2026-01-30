@@ -223,7 +223,7 @@ const openAIPPTDialog = () => {
   }
 
   &:not(.disable):hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.05);
   }
 }
 
@@ -237,7 +237,7 @@ const openAIPPTDialog = () => {
     height: 100%;
     
     ::v-deep(input) {
-      background-color: rgba(255, 255, 255, 0.05);
+      background-color: rgba(0, 0, 0, 0.03);
       border: 1px solid $borderColor;
       color: $textColor;
       font-family: $uiFont;
@@ -255,7 +255,7 @@ const openAIPPTDialog = () => {
     @include ellipsis-oneline();
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(0, 0, 0, 0.05);
     }
   }
 }
@@ -282,8 +282,8 @@ const openAIPPTDialog = () => {
   border-radius: $borderRadius;
   
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: $themeColor;
   }
 
   span {
@@ -294,14 +294,14 @@ const openAIPPTDialog = () => {
 .present-group {
   display: flex;
   align-items: center;
-  background-color: $accentColor;
+  background-color: $themeColor;
   border-radius: $borderRadiusPill;
   transition: all $transitionDelay;
   overflow: hidden;
 
   &:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 0 15px rgba(125, 42, 232, 0.3);
+    filter: brightness(0.95);
+    box-shadow: 0 4px 12px rgba(116, 141, 174, 0.2);
   }
 
   .present-btn {
@@ -325,7 +325,7 @@ const openAIPPTDialog = () => {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
     cursor: pointer;
     color: #fff;
 

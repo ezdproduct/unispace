@@ -438,7 +438,7 @@ const openImageLibPanel = () => {
   gap: 2px; // Minimal gap
   flex: 1;
   justify-content: flex-end;
-  padding-right: 64px; // Moved further left to avoid overlap
+  padding-right: 110px; // Increased further to prevent overlap with "Thiết kế" tab
 
   .viewport-size-adaptation {
     font-size: 18px;

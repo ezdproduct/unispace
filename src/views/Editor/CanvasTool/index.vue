@@ -438,7 +438,7 @@ const openImageLibPanel = () => {
   gap: 2px; // Minimal gap
   flex: 1;
   justify-content: flex-end;
-  padding-right: 24px; // Move away from the right edge as requested
+  padding-right: 64px; // Moved further left to avoid overlap
 
   .viewport-size-adaptation {
     font-size: 18px;

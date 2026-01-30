@@ -123,7 +123,7 @@
         </template>
         <div style="padding: 10px; width: 200px">
           <Slider 
-            :value="canvasScalePercentage" 
+            :value="canvasScaleNum" 
             :min="10" 
             :max="500" 
             :step="5" 
@@ -184,6 +184,7 @@ const {
   setCanvasScalePercentage,
   resetCanvas,
   canvasScalePercentage,
+  canvasScaleNum,
 } = useScaleCanvas()
 
 const canvasScalePresetList = [200, 150, 125, 100, 75, 50]

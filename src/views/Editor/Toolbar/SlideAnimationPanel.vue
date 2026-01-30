@@ -47,7 +47,14 @@ const updateTurningMode = (mode: TurningMode) => {
   addHistorySnapshot()
 }
 
-// 将当前页的切换页面方式应用到全部页面
+const applyAllSlide = () => {
+  const newSlides = slides.value.map(slide => {
+    return {
+      ...slide,
+      turningMode: currentSlide.value.turningMode,
+    }
+  })
+  slidesStore.setSlides(newSlides)
   message.success(t('toolbar.appliedAll'))
   addHistorySnapshot()
 }

@@ -154,7 +154,6 @@ const {
   creatingElement,
   creatingCustomShape,
   canvasScale,
-  canvasScale,
   textFormatPainter,
   previewTransition,
 } = storeToRefs(mainStore)

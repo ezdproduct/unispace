@@ -7,6 +7,7 @@ export default () => {
   const { canvasPercentage, canvasScale, canvasDragged } = storeToRefs(mainStore)
 
   const canvasScalePercentage = computed(() => Math.round(canvasScale.value * 100) + '%')
+  const canvasScaleNum = computed(() => Math.round(canvasScale.value * 100))
 
   /**
    * 缩放画布百分比
@@ -43,6 +44,7 @@ export default () => {
 
   return {
     canvasScalePercentage,
+    canvasScaleNum,
     setCanvasScalePercentage,
     scaleCanvas,
     resetCanvas,

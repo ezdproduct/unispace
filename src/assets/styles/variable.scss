@@ -1,29 +1,34 @@
-$themeColor: #6366F1; // Indigo Primary
-$themeHoverColor: #4F46E5;
-$charcoal: #111827;
-$canvaBlurryGray: rgba(0, 0, 0, 0.05);
-$textColor: #1F2937;
-$textColorSecondary: #6B7280;
-$borderColor: #E5E7EB;
-$lightGray: #FFFFFF; // Pure white background for canvas area
+$themeColor: #748DAE; // Steel Blue (Primary & Stroke)
+$themeHoverColor: #5B7494;
+$skyPastel: #9ECAD6; // Secondary/Hover
+$dustyRose: #F5CBCB; // Accent/Dot
+$softShell: #FFEAEA; // Background/Border/Indicator
+$charcoal: #333333; // Body Text
+$textColor: #333333;
+$textColorSecondary: #828282;
+$borderColor: #FFEAEA; // Super thin border color
+$lightGray: #FFFFFF; // Canvas background
 $sidebarBg: #FFFFFF;
 $headerBg: #FFFFFF;
 $surfaceBg: #FFFFFF;
-$accentColor: #8B5CF6; // Purple accent
-$accentTeal: #6366F1;
-$shareBtnBg: #F3F4F6;
+$accentColor: #F5CBCB;
+$accentTeal: #9ECAD6;
+$shareBtnBg: #F9FAFB;
 
 $slideGradient: linear-gradient(135deg, #748DAE 0%, #9ECAD6 100%);
 
 $boxShadow: 0 4px 6px -1px rgba(0, 0, 0, .3), 0 2px 4px -2px rgba(0, 0, 0, .3);
 
-$transitionDelay: .2s;
-$transitionDelayFast: .1s;
-$transitionDelaySlow: .3s;
+$transitionDelay: .3s;
+$transitionDelayFast: .15s;
+$transitionDelaySlow: .5s;
+
+$lineHeight: 1.6;
+$letterSpacing: 0.03em;
 
 $borderRadius: 4px;
 $borderRadiusPill: 100px;
 
-$uiFont: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-$headingFont: 'Playfair Display', serif;
+$uiFont: 'Inter', 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+$headingFont: 'Montserrat', 'Lexend', sans-serif;
 $textElementFont: 'Inter', sans-serif;

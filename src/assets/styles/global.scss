@@ -117,6 +117,10 @@ body {
 
 body {
   font-family: $uiFont;
+  line-height: $lineHeight;
+  letter-spacing: $letterSpacing;
+  color: $charcoal;
+  -webkit-font-smoothing: antialiased;
 }
 
 ol,
@@ -315,4 +319,46 @@ textarea {
   animation-duration: 0.8s;
   animation-timing-function: ease;
   animation-fill-mode: both;
+}
+
+// Dual Tone Icons
+.icon,
+.handler-item,
+.menu-item .icon {
+  position: relative;
+  z-index: 1;
+  stroke: $themeColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  transition: all $transitionDelay;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    background-color: $dustyRose;
+    opacity: 0.4;
+    border-radius: 50%;
+    left: 20%;
+    top: 20%;
+    z-index: -1;
+    transition: all $transitionDelay;
+  }
+}
+
+// Soft Tinted Shadow
+.soft-shadow {
+  box-shadow: 0 20px 50px rgba(116, 141, 174, 0.05); // Tinted with #748DAE
+}
+
+h1,
+h2,
+h3,
+.title,
+.heading {
+  font-family: $headingFont;
+  letter-spacing: 0.05em;
+  color: $themeColor;
 }

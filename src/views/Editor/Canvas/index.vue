@@ -366,7 +366,7 @@ provide(injectKeySlideScale, canvasScale)
 }
 .viewport-wrapper {
   position: absolute;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 30px 80px rgba(116, 141, 174, 0.08), 0 0 0 1px $borderColor; // Tinted soft shadow
 }
 .viewport {
   position: absolute;

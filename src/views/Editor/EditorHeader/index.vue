@@ -177,14 +177,14 @@ const openAIPPTDialog = () => {
 
 <style lang="scss" scoped>
 .editor-header {
-  height: 56px;
+  height: 64px; // Taller for 'Airy'
   background-color: $headerBg;
   user-select: none;
-  border-bottom: 1px solid $borderColor;
+  border-bottom: 1px solid $softShell;
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
-  color: $textColor;
+  padding: 0 32px;
+  color: $charcoal;
   font-family: $uiFont;
 }
 .left, .right {
@@ -223,7 +223,12 @@ const openAIPPTDialog = () => {
   }
 
   &:not(.disable):hover {
-    background-color: #F3F4F6;
+    background-color: $softShell;
+    
+    &::before {
+      background-color: $skyPastel;
+      opacity: 0.6;
+    }
   }
 }
 
@@ -261,13 +266,14 @@ const openAIPPTDialog = () => {
     @include ellipsis-oneline();
 
     &:hover {
-      background-color: #F3F4F6;
+      background-color: $softShell;
+      color: $themeColor;
     }
   }
 }
 
 .right {
-  gap: 16px;
+  gap: 24px; // Increased for 'Airy' feel
 }
 
 .save-indicator {
@@ -288,8 +294,9 @@ const openAIPPTDialog = () => {
   border-radius: $borderRadius;
   
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-color: $themeColor;
+    background-color: $softShell;
+    border-color: $skyPastel;
+    color: $themeColor;
   }
 
   span {
@@ -300,15 +307,16 @@ const openAIPPTDialog = () => {
 .present-group {
   display: flex;
   align-items: center;
-  background-color: $themeColor;
+  background-color: $skyPastel; // Initial state Sky Pastel
   border-radius: $borderRadiusPill;
   transition: all $transitionDelay;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 10px 30px rgba(116, 141, 174, 0.1);
 
   &:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
+    background-color: $themeColor; // Hover state Steel Blue
+    box-shadow: 0 10px 30px rgba(116, 141, 174, 0.2);
+    transform: translateY(-1px);
   }
 
   .present-btn {

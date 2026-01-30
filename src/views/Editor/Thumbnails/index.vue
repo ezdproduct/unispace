@@ -399,9 +399,9 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   gap: 12px;
 
   .btn {
-    width: 32px;
-    height: 32px;
-    background-color: $accentTeal;
+    width: 36px;
+    height: 36px;
+    background-color: $themeColor;
     color: #fff;
     border-radius: 50%;
     display: flex;
@@ -409,16 +409,30 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     align-items: center;
     cursor: pointer;
     transition: all $transitionDelay;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 10px 25px rgba(116, 141, 174, 0.2);
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: $dustyRose;
+      border-radius: 50%;
+      z-index: -1;
+      transform: scale(0.8) translate(4px, 4px);
+      opacity: 0.6;
+    }
 
     &:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.05);
-      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+      transform: translateY(-2px) scale(1.05);
+      background-color: $skyPastel;
+      box-shadow: 0 15px 35px rgba(116, 141, 174, 0.3);
     }
 
     .icon {
-      font-size: 16px;
+      font-size: 18px;
     }
   }
   
@@ -439,26 +453,30 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
 }
 
 .add-slide-fixed {
-  height: 40px;
-  margin: 12px;
-  background-color: rgba(0, 0, 0, 0.03);
-  color: $textColor;
-  border: 1px solid $borderColor;
+  height: 44px;
+  margin: 20px;
+  background-color: #FFFFFF;
+  color: $themeColor;
+  border: 1px solid $softShell;
   border-radius: $borderRadiusPill;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 13px;
+  font-family: $headingFont;
+  font-weight: 600;
   cursor: pointer;
   transition: all $transitionDelay;
+  box-shadow: 0 5px 15px rgba(116, 141, 174, 0.05);
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-color: rgba(0, 0, 0, 0.1);
+    background-color: $softShell;
+    border-color: $skyPastel;
+    transform: translateY(-1px);
   }
 
   .icon {
-    margin-right: 6px;
+    margin-right: 8px;
     font-size: 16px;
   }
 }
@@ -489,26 +507,28 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
 
   &.active {
     .label {
-      color: $themeColor;
+      color: $dustyRose; // Current indicator color
       font-weight: 800;
     }
     .thumbnail {
-      outline: 2px solid $themeColor;
-      box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
+      outline: 2px solid $dustyRose;
+      box-shadow: 0 15px 45px rgba(116, 141, 174, 0.1);
     }
   }
   &.selected {
     .thumbnail {
-      outline: 2px solid $themeColor;
+      outline: 2px solid $skyPastel;
     }
   }
 
   .label {
     font-size: 11px;
-    color: $textColorSecondary;
-    width: 24px;
+    font-family: $headingFont;
+    color: $softShell; // Unviewed indicator color
+    width: 28px;
     text-align: right;
-    margin-right: 12px;
+    margin-right: 16px;
+    transition: all $transitionDelay;
   }
 }
 

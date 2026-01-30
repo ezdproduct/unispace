@@ -292,10 +292,10 @@ const openImageLibPanel = () => {
   background-color: $headerBg;
   display: flex;
   justify-content: space-between;
-  padding: 0 20px;
-  height: 52px;
+  padding: 0 40px;
+  height: 60px; // Taller for 'Airy'
   user-select: none;
-  color: $textColor;
+  color: $charcoal;
   align-items: center;
 }
 .left-handler, .more, .right-handler, .add-element-handler {
@@ -305,9 +305,9 @@ const openImageLibPanel = () => {
 
 .divider {
   width: 1px;
-  height: 24px;
-  background-color: $borderColor;
-  margin: 0 12px;
+  height: 20px;
+  background-color: $softShell;
+  margin: 0 20px;
 }
 
 .popover-menu-item {
@@ -352,13 +352,19 @@ const openImageLibPanel = () => {
     }
 
     &:hover {
-      background-color: #F3F4F6;
+      background-color: $softShell;
       color: $themeColor;
+      
+      &::before {
+        background-color: $skyPastel;
+        opacity: 0.6;
+      }
     }
 
     &.active {
-      background-color: rgba(99, 102, 241, 0.08);
+      background-color: $softShell;
       color: $themeColor;
+      box-shadow: 0 4px 12px rgba(116, 141, 174, 0.1);
     }
 
     &.group-btn {
@@ -412,13 +418,19 @@ const openImageLibPanel = () => {
   }
 
   &:not(.disable):hover {
-    background-color: #F3F4F6;
+    background-color: $softShell;
     color: $themeColor;
+    
+    &::before {
+      background-color: $skyPastel;
+      opacity: 0.6;
+    }
   }
   
   &.active {
     color: $themeColor;
-    background-color: rgba(99, 102, 241, 0.05);
+    background-color: $softShell;
+    box-shadow: 0 2px 8px rgba(116, 141, 174, 0.05);
   }
 }
 

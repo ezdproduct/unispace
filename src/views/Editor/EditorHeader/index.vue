@@ -223,7 +223,7 @@ const openAIPPTDialog = () => {
   }
 
   &:not(.disable):hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #F3F4F6;
   }
 }
 
@@ -237,10 +237,16 @@ const openAIPPTDialog = () => {
     height: 100%;
     
     ::v-deep(input) {
-      background-color: rgba(0, 0, 0, 0.03);
-      border: 1px solid $borderColor;
+      background-color: #F3F4F6;
+      border: 1px solid transparent;
       color: $textColor;
       font-family: $uiFont;
+      transition: all $transitionDelay;
+
+      &:focus {
+        background-color: #fff;
+        border-color: $themeColor;
+      }
     }
   }
   .title-text {
@@ -255,13 +261,13 @@ const openAIPPTDialog = () => {
     @include ellipsis-oneline();
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: #F3F4F6;
     }
   }
 }
 
 .right {
-  gap: 12px;
+  gap: 16px;
 }
 
 .save-indicator {
@@ -298,17 +304,18 @@ const openAIPPTDialog = () => {
   border-radius: $borderRadiusPill;
   transition: all $transitionDelay;
   overflow: hidden;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 
   &:hover {
-    filter: brightness(0.95);
-    box-shadow: 0 4px 12px rgba(116, 141, 174, 0.2);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 16px rgba(99, 102, 241, 0.3);
   }
 
   .present-btn {
     height: 36px;
     display: flex;
     align-items: center;
-    padding: 0 18px 0 20px;
+    padding: 0 20px;
     cursor: pointer;
     font-weight: 700;
     color: #fff;
@@ -321,11 +328,11 @@ const openAIPPTDialog = () => {
 
   .arrow-btn {
     height: 36px;
-    width: 28px;
+    width: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
     color: #fff;
 

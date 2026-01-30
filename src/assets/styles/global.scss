@@ -197,14 +197,18 @@ textarea {
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #444;
-  border-radius: 3px;
+  background-color: #E2E8F0;
+  border-radius: 10px;
+
+  &:hover {
+    background-color: #CBD5E1;
+  }
 }
 
 @keyframes fade {

@@ -409,11 +409,12 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     align-items: center;
     cursor: pointer;
     transition: all $transitionDelay;
-    box-shadow: 0 4px 10px rgba(116, 141, 174, 0.3);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 
     &:hover {
-      scale: 1.1;
-      filter: brightness(1.1);
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
     }
 
     .icon {
@@ -478,21 +479,27 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
     border-radius: $borderRadius;
     outline: 2px solid transparent;
     transition: all $transitionDelayFast;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
   }
 
   &.active {
     .label {
       color: $themeColor;
-      font-weight: 700;
+      font-weight: 800;
     }
     .thumbnail {
-      outline-color: $themeColor;
-      box-shadow: 0 0 15px rgba(116, 141, 174, 0.2);
+      outline: 2px solid $themeColor;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.25);
     }
   }
   &.selected {
     .thumbnail {
-      outline-color: $themeColor;
+      outline: 2px solid $themeColor;
     }
   }
 

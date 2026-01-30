@@ -352,12 +352,12 @@ const openImageLibPanel = () => {
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: #F3F4F6;
       color: $themeColor;
     }
 
     &.active {
-      background-color: rgba(0, 0, 0, 0.08);
+      background-color: rgba(99, 102, 241, 0.08);
       color: $themeColor;
     }
 
@@ -412,12 +412,13 @@ const openImageLibPanel = () => {
   }
 
   &:not(.disable):hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #F3F4F6;
     color: $themeColor;
   }
   
   &.active {
     color: $themeColor;
+    background-color: rgba(99, 102, 241, 0.05);
   }
 }
 

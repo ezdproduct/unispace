@@ -300,9 +300,18 @@ const openImageLibPanel = () => {
   background-color: $headerBg;
   border-bottom: 1px solid $borderColor;
 }
-.left-handler, .more, .right-handler, .add-element-handler {
+.left-handler {
   display: flex;
   align-items: center;
+  flex: 1;
+}
+.more, .right-handler {
+  display: flex;
+  align-items: center;
+}
+.right-handler {
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .divider {
@@ -327,15 +336,15 @@ const openImageLibPanel = () => {
 }
 
 .add-element-handler {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  gap: 4px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  gap: 8px;
 
   .insert-handler-item {
-    height: 36px;
-    min-width: 36px;
+    height: 38px;
+    min-width: 38px;
     padding: 0 8px;
     display: flex;
     justify-content: center;
@@ -343,7 +352,7 @@ const openImageLibPanel = () => {
     border-radius: $borderRadius;
     cursor: pointer;
     transition: all $transitionDelayFast;
-    color: $textColorSecondary;
+    color: #FFFFFF; // White icons for visibility
 
     .icon {
       font-size: 20px;
@@ -376,7 +385,7 @@ const openImageLibPanel = () => {
         border-radius: $borderRadius 0 0 $borderRadius;
         
         &:hover {
-          background-color: rgba(0, 0, 0, 0.03);
+          background-color: rgba(255, 255, 255, 0.05);
         }
       }
 
@@ -390,7 +399,7 @@ const openImageLibPanel = () => {
         border-radius: 0 $borderRadius $borderRadius 0;
 
         &:hover {
-          background-color: rgba(0, 0, 0, 0.03);
+          background-color: rgba(255, 255, 255, 0.05);
         }
       }
     }
@@ -398,16 +407,16 @@ const openImageLibPanel = () => {
 }
 
 .handler-item {
-  height: 36px;
-  width: 36px;
+  height: 38px;
+  width: 38px;
   font-size: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50%; // Soft circular hover
+  border-radius: 50%;
   cursor: pointer;
   transition: all $transitionDelayFast;
-  color: $textColorSecondary;
+  color: #FFFFFF; // White for undo/redo and zoom icons
 
   &.disable {
     opacity: .2;
@@ -426,19 +435,30 @@ const openImageLibPanel = () => {
 }
 
 .right-handler {
-  gap: 8px;
+  gap: 12px;
+  flex: 1;
+  justify-content: flex-end;
 
   .viewport-size-adaptation {
     font-size: 18px;
   }
 }
 
+.scale-text {
+  font-size: 12px;
+  min-width: 45px;
+  text-align: center;
+  color: #FFFFFF;
+  margin: 0 4px;
+}
+
 .zoom-slider-container {
-  padding: 10px 16px;
-  width: 180px;
+  padding: 0;
+  width: 100px; // Shorter to avoid overflow
+  margin: 0 10px;
   
   ::v-deep(.slider-line) {
-    height: 2px !important; // Thin slider line
+    height: 2px !important;
   }
   
   ::v-deep(.slider-dot) {

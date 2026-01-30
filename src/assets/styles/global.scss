@@ -327,11 +327,8 @@ textarea {
 .menu-item .icon {
   position: relative;
   z-index: 1;
-  stroke: $themeColor;
-  stroke-width: 1.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-  transition: all $transitionDelay;
+  transition: all $transitionDelay; // Removed stroke properties
+  fill: currentColor;
 
   &::before {
     display: none; // Disable blobs as requested
@@ -350,6 +347,6 @@ h3,
 .heading {
   font-family: $headingFont;
   letter-spacing: 0.05em;
-  color: $charcoal;
+  color: #FFFFFF; // Always white for dark theme titles
   font-weight: 700;
 }

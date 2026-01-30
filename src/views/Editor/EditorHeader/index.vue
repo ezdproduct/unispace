@@ -239,8 +239,8 @@ const openAIPPTDialog = () => {
     
     ::v-deep(input) {
       background-color: rgba(255, 255, 255, 0.03);
-      border: 1px solid transparent;
-      color: $textColor;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #FFFFFF; // Pure white for editing
       font-family: $uiFont;
       transition: all $transitionDelay;
 
@@ -257,13 +257,13 @@ const openAIPPTDialog = () => {
     padding: 0 12px;
     border-radius: $borderRadius;
     cursor: pointer;
-    font-family: $uiFont;
+    font-family: $headingFont;
+    color: #FFFFFF; // Force white as requested
 
     @include ellipsis-oneline();
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.05);
-      color: $themeColor;
     }
   }
 }

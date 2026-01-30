@@ -46,15 +46,8 @@ onMounted(async () => {
     id: 'initial_slide',
     elements: [],
     background: {
-      type: 'gradient',
-      gradient: {
-        type: 'linear',
-        colors: [
-          { pos: 0, color: '#0288D1' },
-          { pos: 100, color: '#BFDBFE' },
-        ],
-        rotate: 45,
-      },
+      type: 'solid',
+      color: '#ffffff',
     },
   }
   slidesStore.setSlides([initialSlide])

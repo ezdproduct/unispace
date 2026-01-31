@@ -22,17 +22,38 @@ import {
   FontSize as IconFontSize,
   UploadOne as IconUpload,
   SettingConfig as IconSettingConfig,
+  LayoutOne as IconLayoutOne,
+  Picture as IconPicture,
+  GoOn as IconGoOn,
 } from '@icon-park/vue-next'
+import { h } from 'vue'
+
+const IconAi = {
+  render: () => h('svg', {
+    viewBox: '0 0 48 48',
+    fill: 'none',
+    width: '1em',
+    height: '1em',
+    stroke: 'currentColor',
+    'stroke-width': 4,
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round'
+  }, [
+    h('path', { d: 'M9 42L19 8L29 42' }),
+    h('path', { d: 'M13 30H25' }),
+    h('path', { d: 'M39 8V42' }),
+  ])
+}
 
 const mainStore = useMainStore()
 const { sidebarState: activeTab } = storeToRefs(mainStore)
 
 const tabs = [
-  { label: 'Chọn kiểu', value: 'design', icon: IconGraphicDesign },
+  { label: 'Mẫu', value: 'templates', icon: IconLayoutOne },
   { label: 'Thành phần', value: 'elements', icon: IconComponents },
   { label: 'Văn bản', value: 'text', icon: IconFontSize },
-  { label: 'Tải lên', value: 'uploads', icon: IconUpload },
-  { label: 'Tùy chỉnh', value: 'custom', icon: IconSettingConfig },
+  { label: 'Ảnh', value: 'image', icon: IconPicture },
+  { label: 'AI', value: 'ai', icon: IconAi },
 ]
 
 const setTab = (value: string) => {

@@ -2,7 +2,7 @@ import { storeToRefs } from 'pinia'
 import { nanoid } from 'nanoid'
 import { useMainStore, useSlidesStore } from '@/store'
 import { getImageSize } from '@/utils/image'
-import type { PPTLineElement, PPTElement, TableCell, TableCellStyle, PPTShapeElement, ChartType, PPTVideoElement, PPTAudioElement } from '@/types/slides'
+import type { PPTLineElement, PPTElement, TableCell, TableCellStyle, PPTShapeElement, ChartType, PPTVideoElement, PPTAudioElement, PPTImageElement } from '@/types/slides'
 import { type ShapePoolItem, SHAPE_PATH_FORMULAS } from '@/configs/shapes'
 import type { LinePoolItem } from '@/configs/lines'
 import { CHART_DEFAULT_DATA } from '@/configs/chart'
@@ -25,6 +25,7 @@ interface LineElementPosition {
 interface CreateTextData {
   content?: string
   vertical?: boolean
+  defaultColor?: string
 }
 
 export default () => {
@@ -36,9 +37,11 @@ export default () => {
   const { addHistorySnapshot } = useHistorySnapshot()
 
   // 创建（插入）一个元素并将其设置为被选中元素
-  const createElement = (element: PPTElement, callback?: () => void) => {
+  const createElement = (element: PPTElement, callback?: () => void, shouldActivate = true) => {
     slidesStore.addElement(element)
-    mainStore.setActiveElementIdList([element.id])
+    if (shouldActivate) {
+      mainStore.setActiveElementIdList([element.id])
+    }
 
     if (creatingElement.value) mainStore.setCreatingElement(null)
 
@@ -55,8 +58,8 @@ export default () => {
    * 创建图片元素
    * @param src 图片地址
    */
-  const createImageElement = (src: string) => {
-    getImageSize(src).then(({ width, height }) => {
+  const createImageElement = (src: string, options: Partial<PPTImageElement> = {}, shouldActivate = true) => {
+    return getImageSize(src).then(({ width, height }) => {
       const scale = height / width
 
       if (scale < viewportRatio.value && width > viewportSize.value) {
@@ -78,7 +81,8 @@ export default () => {
         top: (viewportSize.value * viewportRatio.value - height) / 2,
         fixedRatio: true,
         rotate: 0,
-      })
+        ...options,
+      }, undefined, shouldActivate)
     })
   }
 
@@ -167,6 +171,7 @@ export default () => {
     const defaultFontName = isTitle ? 'Playfair Display' : 'Inter'
     const content = data?.content || `<p style="font-size: ${defaultFontSize}; font-family: ${defaultFontName}; margin-bottom: 0.5em; letter-spacing: ${isTitle ? '-0.5px' : 'normal'};">Văn bản mới</p>`
     const vertical = data?.vertical || false
+    const defaultColor = data?.defaultColor || theme.value.fontColor
 
     const id = nanoid(10)
     createElement({
@@ -179,7 +184,7 @@ export default () => {
       content,
       rotate: 0,
       defaultFontName: defaultFontName,
-      defaultColor: theme.value.fontColor,
+      defaultColor,
       vertical,
     }, () => {
       setTimeout(() => {

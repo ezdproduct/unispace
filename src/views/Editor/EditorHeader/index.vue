@@ -27,13 +27,6 @@
                 <span class="icon"><IconFilePdf theme="multi-color" :fill="['#333', '#d14424', '#fff']" /></span>
                 <span class="label">PPTX</span>
               </FileInput>
-              <FileInput class="import-block" accept=".pptist" @change="files => {
-                importSpecificFile(files)
-                mainMenuVisible = false
-              }">
-                <span class="icon"><IconNotes theme="multi-color" :fill="['#333', '#d14424', '#fff']" /></span>
-                <span class="label">PPTIST</span>
-              </FileInput>
             </div>
           </div>
           <Divider :margin="10" />
@@ -68,7 +61,7 @@
 
 
       <div class="contact-btn-modern">
-        <span>Liên hệ</span>
+        <span>Gửi mẫu</span>
       </div>
     </div>
 

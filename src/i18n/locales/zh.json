@@ -1,5 +1,5 @@
 {
-    "title": "PPTist - 在线演示文稿",
+    "title": "UniSpace - 在线演示文稿",
     "header": {
         "aipptSubtitle": "输入一句话，智能生成幻灯片",
         "importFile": "导入文件",
@@ -428,7 +428,7 @@
         "close": "关闭画笔"
     },
     "export": {
-        "pptist": "导出 PPTIST 文件",
+        "pptist": "导出 UniSpace 文件",
         "pptx": "导出 PPTX",
         "image": "导出图片",
         "json": "导出 JSON",

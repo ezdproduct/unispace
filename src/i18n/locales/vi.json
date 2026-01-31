@@ -1,5 +1,5 @@
 {
-    "title": "PPTist - Bản thuyết trình trực tuyến",
+    "title": "UniSpace - Bản thuyết trình trực tuyến",
     "header": {
         "aipptSubtitle": "Nhập một câu để tạo bài thuyết trình thông minh",
         "importFile": "Nhập tệp",
@@ -428,7 +428,7 @@
         "close": "Đóng bút vẽ"
     },
     "export": {
-        "pptist": "Xuất tệp PPTIST",
+        "pptist": "Xuất tệp UniSpace",
         "pptx": "Xuất tệp PPTX",
         "image": "Xuất hình ảnh",
         "json": "Xuất JSON",

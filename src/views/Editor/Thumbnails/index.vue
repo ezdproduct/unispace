@@ -44,7 +44,7 @@
             @dblclick="enterScreening()"
             v-contextmenu="contextmenusThumbnailItem"
           >
-            <div class="label" :class="{ 'offset-left': index >= 99 }">{{ fillDigit(index + 1, 2) }}</div>
+            <div class="label" v-if="vertical" :class="{ 'offset-left': index >= 99 }">{{ fillDigit(index + 1, 2) }}</div>
             <ThumbnailSlide class="thumbnail" :slide="element" :size="120" :visible="index < slidesLoadLimit" />
             <div class="transition-flag" v-if="element.turningMode && element.turningMode !== 'no'"><IconEffects /></div>
   

@@ -33,25 +33,7 @@
     >
       <template #item="{ element, index }">
         <div class="thumbnail-container">
-          <div class="section-title"
-            :data-section-id="element?.sectionTag?.id || ''"
-            v-if="element.sectionTag || (hasSection && index === 0)" 
-            v-contextmenu="contextmenusSection"
-            @dblclick="() => editSection(element?.sectionTag?.id || '')"
-          >
-            <input 
-              :id="`section-title-input-${element?.sectionTag?.id || 'default'}`" 
-              type="text"
-              :value="element?.sectionTag?.title || ''"
-              :placeholder="$t('thumbnails.inputSectionName')"
-              @blur="$event => saveSection($event)"
-              @keydown.enter.stop="$event => saveSection($event)"
-              v-if="editingSectionId === element?.sectionTag?.id || (index === 0 && editingSectionId === 'default')"
-            >
-            <span class="text" v-else>
-              <div class="text-content">{{ element?.sectionTag ? (element?.sectionTag?.title || $t('thumbnails.untitledSection')) : $t('thumbnails.defaultSection') }}</div>
-            </span>
-          </div>
+
           <div
             class="thumbnail-item"
             :class="{
@@ -80,7 +62,7 @@
       <IconPlus class="icon" /> {{ $t('thumbnails.addSlide') }}
     </div>
 
-    <div class="page-number" v-if="vertical">{{ $t('thumbnails.slideNumber', { index: slideIndex + 1, total: slides.length }) }}</div>
+
   </div>
 </template>
 

@@ -19,6 +19,9 @@
           </div>
           <div class="bottom-tools">
             <div class="notes-btn"><IconNotes /> Notes</div>
+            <div class="status-info">
+              <span class="slide-number">{{ $t('thumbnails.slideNumber', { index: slideIndex + 1, total: slides.length }) }}</span>
+            </div>
             <div class="zoom-controls">
               <!-- Reuse CanvasTool zoom part if needed -->
             </div>
@@ -60,7 +63,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useMainStore } from '@/store'
+import { useMainStore, useSlidesStore } from '@/store'
+import { useI18n } from 'vue-i18n'
 import useGlobalHotkey from '@/hooks/useGlobalHotkey'
 import usePasteEvent from '@/hooks/usePasteEvent'
 
@@ -83,6 +87,8 @@ import AIPPTDialog from './AIPPTDialog.vue'
 import Modal from '@/components/Modal.vue'
 
 const mainStore = useMainStore()
+const slidesStore = useSlidesStore()
+const { t } = useI18n()
 const {
   dialogForExport,
   showSelectPanel,
@@ -94,6 +100,7 @@ const {
   showAIPPTDialog,
   sidebarState,
 } = storeToRefs(mainStore)
+const { slides, slideIndex } = storeToRefs(slidesStore)
 
 const closeExportDialog = () => mainStore.setDialogForExport('')
 const closeAIPPTDialog = () => mainStore.setAIPPTDialogState(false)

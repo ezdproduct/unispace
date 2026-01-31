@@ -34,7 +34,9 @@ const panelMap = {
 
 const { handleElement } = storeToRefs(useMainStore())
 
-const currentPanelComponent = computed<unknown>(() => {
-  return handleElement.value ? (panelMap[handleElement.value.type] || null) : null
+const currentPanelComponent = computed(() => {
+  if (!handleElement.value) return null
+  const elementType = handleElement.value.type as keyof typeof panelMap
+  return panelMap[elementType] || null
 })
 </script>

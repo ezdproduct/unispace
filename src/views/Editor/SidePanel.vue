@@ -140,6 +140,7 @@ const {
   createLatexElement,
   createVideoElement,
   createAudioElement,
+  createTextElement,
 } = useCreateElement()
 
 const chartPoolActive = ref(false)

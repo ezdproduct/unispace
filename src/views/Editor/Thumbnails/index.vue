@@ -6,7 +6,7 @@
     v-click-outside="() => setThumbnailsFocus(false)"
     v-contextmenu="contextmenusThumbnails"
   >
-    <div class="add-slide" @click="presetLayoutPopoverVisible = !presetLayoutPopoverVisible">
+    <div class="add-slide" v-if="vertical" @click="presetLayoutPopoverVisible = !presetLayoutPopoverVisible">
       <div class="btn"><IconPlus class="icon" /></div>
       <div class="select-theme-text">{{ $t('thumbnails.selectTheme') }}</div>
       <Popover trigger="click" placement="bottom-start" v-model:value="presetLayoutPopoverVisible" center>
@@ -76,11 +76,11 @@
       </template>
     </Draggable>
 
-    <div class="add-slide-fixed" @click="createSlide()">
+    <div class="add-slide-fixed" v-if="vertical" @click="createSlide()">
       <IconPlus class="icon" /> {{ $t('thumbnails.addSlide') }}
     </div>
 
-    <div class="page-number">{{ $t('thumbnails.slideNumber', { index: slideIndex + 1, total: slides.length }) }}</div>
+    <div class="page-number" v-if="vertical">{{ $t('thumbnails.slideNumber', { index: slideIndex + 1, total: slides.length }) }}</div>
   </div>
 </template>
 

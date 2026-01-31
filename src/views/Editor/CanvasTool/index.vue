@@ -14,30 +14,6 @@
     </div>
 
     <div class="right-handler">
-      <IconMinus class="handler-item viewport-size" v-tooltip="$t('canvasTool.canvasZoomOut')" @click="scaleCanvas('-')" />
-      <Popover trigger="click" v-model:value="canvasScaleVisible">
-        <template #content>
-          <PopoverMenuItem
-            center
-            v-for="item in canvasScalePresetList" 
-            :key="item" 
-            @click="applyCanvasPresetScale(item)"
-          >{{item}}%</PopoverMenuItem>
-          <PopoverMenuItem center @click="resetCanvas(); canvasScaleVisible = false">{{ $t('canvasTool.adaptScreen') }}</PopoverMenuItem>
-        </template>
-        <div class="zoom-slider-container">
-          <Slider 
-            :value="canvasScaleNum" 
-            :min="10" 
-            :max="500" 
-            :step="5" 
-            @update:value="value => applyCanvasPresetScale(value as number)" 
-          />
-        </div>
-      </Popover>
-      <span class="scale-text">{{canvasScaleNum}}%</span>
-      <IconPlus class="handler-item viewport-size" v-tooltip="$t('canvasTool.canvasZoomIn')" @click="scaleCanvas('+')" />
-      <IconFullScreen class="handler-item viewport-size-adaptation" v-tooltip="$t('canvasTool.adaptScreen')" @click="resetCanvas()" />
     </div>
   </div>
 </template>
@@ -261,8 +237,8 @@ const toggleNotesPanel = () => {
 
 .zoom-slider-container {
   padding: 0;
-  width: 70px; // Compact slider
-  margin: 0 4px;
+  width: 150px; // Increased width for better control
+  margin: 0 12px;
   
   ::v-deep(.slider-line) {
     height: 2px !important;

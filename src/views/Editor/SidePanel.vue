@@ -1,6 +1,6 @@
 <template>
   <div class="side-panel">
-    <div class="panel-header">
+    <div class="panel-header" v-if="sidebarState !== 'design'">
       <div class="title">{{ panelTitle }}</div>
       <div class="close-btn" @click="closePanel()"><IconClose /></div>
     </div>
@@ -76,6 +76,11 @@
         </div>
       </div>
 
+      <!-- CUSTOM/TOOLBAR TAB -->
+      <div v-else-if="sidebarState === 'custom'" class="custom-panel">
+        <Toolbar />
+      </div>
+
       <div v-else class="placeholder">
         {{ sidebarState }} coming soon
       </div>
@@ -128,6 +133,7 @@ import TableGenerator from './CanvasTool/TableGenerator.vue'
 import MediaInput from './CanvasTool/MediaInput.vue'
 import LaTeXEditor from '@/components/LaTeXEditor/index.vue'
 import Thumbnails from './Thumbnails/index.vue'
+import Toolbar from './Toolbar/index.vue'
 import Modal from '@/components/Modal.vue'
 import FileInput from '@/components/FileInput.vue'
 
@@ -154,8 +160,7 @@ const panelTitle = computed(() => {
     elements: 'Thành phần',
     text: 'Văn bản',
     uploads: 'Tải lên',
-    draw: 'Vẽ',
-    apps: 'Ứng dụng',
+    custom: 'Tùy chỉnh',
   }
   return titles[sidebarState.value] || ''
 })
@@ -198,6 +203,7 @@ const toggleSymbolPanel = () => mainStore.setSymbolPanelState(!mainStore.showSym
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: #FAF9F6;
 }
 
 .panel-header {

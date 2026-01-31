@@ -79,16 +79,10 @@
     </div>
 
     <div class="right">
-      <div class="header-item" @click="enterScreening()">
-        <IconPlayOne class="icon" /> <span>Present</span>
-      </div>
 
-      <div class="share-btn-modern">
-        <span>Share</span>
-      </div>
 
-      <div class="user-avatar">
-        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="avatar" />
+      <div class="contact-btn-modern">
+        <span>Liên hệ</span>
       </div>
     </div>
 
@@ -172,7 +166,7 @@ const openAIPPTDialog = () => {
 <style lang="scss" scoped>
 .editor-header {
   height: 56px;
-  background: $headerBg;
+  background: linear-gradient(135deg, #0A2B45 0%, #2A5D78 40%, #7094A8 75%, #F2EEE4 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -288,39 +282,28 @@ const openAIPPTDialog = () => {
   gap: 12px;
 }
 
-.share-btn-modern {
-  background-color: #FFFFFF;
-  color: $themeColor;
+.contact-btn-modern {
+  background-color: #FAF9F6;
+  color: #0A2B45;
   padding: 0 20px;
   height: 36px;
   display: flex;
   align-items: center;
   border-radius: $borderRadius;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 14px;
   cursor: pointer;
-  transition: transform $transitionDelayFast;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: all $transitionDelayFast;
 
   &:hover {
-    transform: scale(1.02);
-    background-color: #F8F9FA;
+    transform: translateY(-1px);
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
 }
 
-.user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.4);
-  margin-left: 8px;
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
 
 .popover-menu-item {
   padding: 8px 16px;

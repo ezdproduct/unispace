@@ -35,12 +35,9 @@ const { activeElementIdList, activeElementList, activeGroupElementId, toolbarSta
 const elementTabs = computed(() => [
   { label: t('toolbar.style'), key: ToolbarStates.EL_STYLE },
   { label: t('toolbar.position'), key: ToolbarStates.EL_POSITION },
-  { label: t('toolbar.animation'), key: ToolbarStates.EL_ANIMATION },
 ])
 const slideTabs = computed(() => [
   { label: t('toolbar.design'), key: ToolbarStates.SLIDE_DESIGN },
-  { label: t('toolbar.transition'), key: ToolbarStates.SLIDE_ANIMATION },
-  { label: t('toolbar.animation'), key: ToolbarStates.EL_ANIMATION },
 ])
 const multiSelectTabs = computed(() => [
   { label: t('toolbar.multiStyle', { n: activeElementIdList.value.length }), key: ToolbarStates.MULTI_STYLE },

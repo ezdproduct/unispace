@@ -21,20 +21,18 @@ import {
   Components as IconComponents,
   FontSize as IconFontSize,
   UploadOne as IconUpload,
-  WritingFluently as IconWritingFluently,
-  ApplicationOne as IconApplicationOne,
+  SettingConfig as IconSettingConfig,
 } from '@icon-park/vue-next'
 
 const mainStore = useMainStore()
 const { sidebarState: activeTab } = storeToRefs(mainStore)
 
 const tabs = [
-  { label: 'Thiết kế', value: 'design', icon: IconGraphicDesign },
+  { label: 'Chọn kiểu', value: 'design', icon: IconGraphicDesign },
   { label: 'Thành phần', value: 'elements', icon: IconComponents },
   { label: 'Văn bản', value: 'text', icon: IconFontSize },
   { label: 'Tải lên', value: 'uploads', icon: IconUpload },
-  { label: 'Vẽ', value: 'draw', icon: IconWritingFluently },
-  { label: 'Ứng dụng', value: 'apps', icon: IconApplicationOne },
+  { label: 'Tùy chỉnh', value: 'custom', icon: IconSettingConfig },
 ]
 
 const setTab = (value: string) => {
@@ -46,7 +44,7 @@ const setTab = (value: string) => {
 .side-bar {
   width: 72px;
   height: 100%;
-  background-color: #F8F9FA;
+  background-color: #FAF9F6;
   display: flex;
   flex-direction: column;
   padding-top: 8px;

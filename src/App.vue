@@ -1,5 +1,6 @@
 <template>
-  <template v-if="slides.length">
+  <Home v-if="isHome" />
+  <template v-else-if="slides.length">
     <Screen v-if="screening" />
     <Editor v-else-if="_isPC" />
     <Mobile v-else />
@@ -20,6 +21,7 @@ import api from '@/services'
 import Editor from './views/Editor/index.vue'
 import Screen from './views/Screen/index.vue'
 import Mobile from './views/Mobile/index.vue'
+import Home from './views/Home/index.vue'
 import FullscreenSpin from '@/components/FullscreenSpin.vue'
 
 const _isPC = isPC()
@@ -27,7 +29,7 @@ const _isPC = isPC()
 const mainStore = useMainStore()
 const slidesStore = useSlidesStore()
 const snapshotStore = useSnapshotStore()
-const { databaseId } = storeToRefs(mainStore)
+const { databaseId, isHome } = storeToRefs(mainStore)
 const { slides } = storeToRefs(slidesStore)
 const { screening } = storeToRefs(useScreenStore())
 const { t, locale } = useI18n()

@@ -30,7 +30,7 @@ export interface SlidesState {
 
 export const useSlidesStore = defineStore('slides', {
   state: (): SlidesState => ({
-    title: 'Bản thuyết trình chưa đặt tên', // 幻灯片标题
+    title: 'Thiết kế chưa đặt tên', // 幻灯片标题
     theme: {
       themeColors: ['#0288D1', '#374151', '#4B5563', '#9CA3AF', '#64748B', '#E5E7EB'],
       fontColor: '#ffffff',
@@ -113,7 +113,7 @@ export const useSlidesStore = defineStore('slides', {
 
   actions: {
     setTitle(title: string) {
-      if (!title) this.title = 'Bản thuyết trình chưa đặt tên'
+      if (!title) this.title = 'Thiết kế chưa đặt tên'
       else this.title = title
     },
 

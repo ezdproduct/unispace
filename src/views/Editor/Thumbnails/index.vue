@@ -6,20 +6,6 @@
     v-click-outside="() => setThumbnailsFocus(false)"
     v-contextmenu="contextmenusThumbnails"
   >
-    <div class="add-slide" v-if="vertical" @click="presetLayoutPopoverVisible = !presetLayoutPopoverVisible">
-      <div class="btn"><IconPlus class="icon" /></div>
-      <div class="select-theme-text">{{ $t('thumbnails.selectTheme') }}</div>
-      <Popover trigger="click" placement="bottom-start" v-model:value="presetLayoutPopoverVisible" center>
-        <template #content>
-          <Templates 
-            @select="slide => { createSlideByTemplate(slide); presetLayoutPopoverVisible = false }"
-            @selectAll="({ slides, theme }) => { insertAllTemplates({ slides, theme }); presetLayoutPopoverVisible = false }"
-          />
-        </template>
-        <div class="select-btn"><IconDown /></div>
-      </Popover>
-    </div>
-
     <Draggable 
       class="thumbnail-list"
       ref="thumbnailsRef"
@@ -453,34 +439,46 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   }
 
   .select-btn {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #666;
+    &:hover {
+      background-color: rgba(0,0,0,0.05);
+      color: $themeColor;
+    }
   }
 }
 
 .add-slide-fixed {
-  height: 44px;
-  margin: 20px;
-  background-color: rgba(255, 255, 255, 0.05);
+  height: 48px;
+  margin: 12px 20px;
+  background-color: #fff;
   color: $themeColor;
-  border: 1px solid $borderColor;
+  border: 1px solid rgba($themeColor, 0.2);
   border-radius: $borderRadiusPill;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 13px;
-  font-family: $headingFont;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   transition: all $transitionDelay;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba($themeColor, 0.02);
+    border-color: $themeColor;
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba($themeColor, 0.1);
   }
 
   .icon {
     margin-right: 8px;
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -509,14 +507,14 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
   }
 
   &.active {
-    background-color: rgba(0, 212, 255, 0.05); // Subtle cyan glow
+    background-color: rgba($themeColor, 0.05); // Subtle Navy glow
     .label {
       color: $themeColor; 
       font-weight: 800;
     }
     .thumbnail {
       outline: 2px solid $themeColor;
-      box-shadow: 0 8px 30px rgba(0, 212, 255, 0.2);
+      box-shadow: 0 8px 30px rgba($themeColor, 0.15);
     }
   }
   &.selected {

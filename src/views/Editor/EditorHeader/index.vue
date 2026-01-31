@@ -2,7 +2,7 @@
   <div class="editor-header">
     <div class="left">
       <div class="header-item home-btn" @click="goLink('/')">
-        <span class="logo-text">UNISPACE</span>
+        <img src="/logo.svg" alt="UniSpace" class="w-24 h-8 object-contain" />
       </div>
 
       <Popover trigger="click" placement="bottom-start" v-model:value="mainMenuVisible">

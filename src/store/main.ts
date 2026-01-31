@@ -82,7 +82,7 @@ export const useMainStore = defineStore('main', {
     showAIPPTDialog: false, // 打开AIPPT创建窗口
     previewTransition: '', // 预览幻灯片切换效果
     sidebarState: 'design', // 左侧侧边栏状态
-    isHome: true, // 是否在首页
+    isHome: false, // 是否在首页
   }),
 
   getters: {

@@ -19,69 +19,237 @@
     <div 
       class="viewport-wrapper"
       :style="{
-        width: viewportStyles.width * canvasScale + 'px',
+        width: (viewportStyles.width * canvasScale * 2 + 40 * canvasScale) + 'px',
         height: viewportStyles.height * canvasScale + 'px',
-        left: viewportStyles.left + 'px',
+        left: (viewportStyles.left - (viewportStyles.width * canvasScale * 0.5 + 20 * canvasScale)) + 'px',
         top: viewportStyles.top + 'px',
         animationName: previewTransition || 'none',
+        display: 'flex',
+        gap: (40 * canvasScale) + 'px',
       }"
       :class="{ 'slide-transition-preview': !!previewTransition }"
     >
-      <div class="operates">
-        <AlignmentLine 
-          v-for="(line, index) in alignmentLines" 
-          :key="index" 
-          :type="line.type" 
-          :axis="line.axis" 
-          :length="line.length"
-          :canvasScale="canvasScale"
-        />
-        <MultiSelectOperate 
-          v-if="activeElementIdList.length > 1"
-          :elementList="elementList"
-          :scaleMultiElement="scaleMultiElement"
-        />
-        <Operate
-          v-for="element in elementList" 
-          :key="element.id"
-          :elementInfo="element"
-          :isSelected="activeElementIdList.includes(element.id)"
-          :isActive="handleElementId === element.id"
-          :isActiveGroupElement="activeGroupElementId === element.id"
-          :isMultiSelect="activeElementIdList.length > 1"
-          :rotateElement="rotateElement"
-          :scaleElement="scaleElement"
-          :openLinkDialog="openLinkDialog"
-          :dragLineElement="dragLineElement"
-          :moveShapeKeypoint="moveShapeKeypoint"
-          v-show="!hiddenElementIdList.includes(element.id)"
-        />
-        <ViewportBackground />
+      <!-- SLIDE 1 CONTAINER -->
+      <div 
+        class="slide-container" 
+        :style="{
+          position: 'relative', 
+          width: (viewportStyles.width * canvasScale) + 'px',
+          height: '100%'
+        }"
+      >
+        <!-- Interactive Mode (If Slide Index is 0) -->
+        <template v-if="slideIndex === 0">
+          <div class="operates">
+            <AlignmentLine 
+              v-for="(line, index) in alignmentLines" 
+              :key="index" 
+              :type="line.type" 
+              :axis="line.axis" 
+              :length="line.length"
+              :canvasScale="canvasScale"
+            />
+            <MultiSelectOperate 
+              v-if="activeElementIdList.length > 1"
+              :elementList="elementList"
+              :scaleMultiElement="scaleMultiElement"
+            />
+            <Operate
+              v-for="element in elementList" 
+              :key="element.id"
+              :elementInfo="element"
+              :isSelected="activeElementIdList.includes(element.id)"
+              :isActive="handleElementId === element.id"
+              :isActiveGroupElement="activeGroupElementId === element.id"
+              :isMultiSelect="activeElementIdList.length > 1"
+              :rotateElement="rotateElement"
+              :scaleElement="scaleElement"
+              :openLinkDialog="openLinkDialog"
+              :dragLineElement="dragLineElement"
+              :moveShapeKeypoint="moveShapeKeypoint"
+              v-show="!hiddenElementIdList.includes(element.id)"
+            />
+            <ViewportBackground />
+          </div>
+
+          <div 
+            class="viewport" 
+            ref="viewportRef"
+            :style="{
+              width: viewportStyles.width + 'px',
+              height: viewportStyles.height + 'px',
+              transform: `scale(${canvasScale})`,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              transformOrigin: '0 0',
+            }"
+          >
+            <MouseSelection 
+              v-if="mouseSelectionVisible"
+              :top="mouseSelection.top" 
+              :left="mouseSelection.left" 
+              :width="mouseSelection.width" 
+              :height="mouseSelection.height" 
+              :quadrant="mouseSelectionQuadrant"
+            />      
+            <EditableElement 
+              v-for="(element, index) in elementList" 
+              :key="element.id"
+              :elementInfo="element"
+              :elementIndex="index + 1"
+              :isMultiSelect="activeElementIdList.length > 1"
+              :selectElement="selectElement"
+              :openLinkDialog="openLinkDialog"
+              v-show="!hiddenElementIdList.includes(element.id)"
+            />
+          </div>
+        </template>
+
+        <!-- Static Mode (If Slide Index is NOT 0) -->
+        <template v-else>
+          <div class="slide-overlay" @mousedown.prevent.stop="slidesStore.updateSlideIndex(0)"></div>
+          <div 
+            class="viewport" 
+            :style="{
+              width: viewportStyles.width + 'px',
+              height: viewportStyles.height + 'px',
+              transform: `scale(${canvasScale})`,
+              pointerEvents: 'none',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              transformOrigin: '0 0',
+            }"
+          >
+             <div class="thumbnail-bg" 
+               :style="slide1BackgroundStyle"
+               style="position: absolute; width: 100%; height: 100%; z-index: -1;"
+             ></div>
+             <EditableElement 
+              v-for="(element, index) in slides[0]?.elements || []" 
+              :key="element.id"
+              :elementInfo="element"
+              :elementIndex="index + 1"
+              :isMultiSelect="false"
+              :selectElement="() => {}"
+              :openLinkDialog="() => {}"
+            />
+          </div>
+        </template>
+        <div class="page-number-label">Mặt trước</div>
       </div>
 
+      <!-- SLIDE 2 CONTAINER -->
       <div 
-        class="viewport" 
-        ref="viewportRef"
-        :style="{ transform: `scale(${canvasScale})` }"
+        class="slide-container" 
+        :style="{
+          position: 'relative', 
+          width: (viewportStyles.width * canvasScale) + 'px',
+          height: '100%'
+        }"
       >
-        <MouseSelection 
-          v-if="mouseSelectionVisible"
-          :top="mouseSelection.top" 
-          :left="mouseSelection.left" 
-          :width="mouseSelection.width" 
-          :height="mouseSelection.height" 
-          :quadrant="mouseSelectionQuadrant"
-        />      
-        <EditableElement 
-          v-for="(element, index) in elementList" 
-          :key="element.id"
-          :elementInfo="element"
-          :elementIndex="index + 1"
-          :isMultiSelect="activeElementIdList.length > 1"
-          :selectElement="selectElement"
-          :openLinkDialog="openLinkDialog"
-          v-show="!hiddenElementIdList.includes(element.id)"
-        />
+        <!-- Interactive Mode (If Slide Index is 1) -->
+        <template v-if="slideIndex === 1">
+          <div class="operates">
+            <AlignmentLine 
+              v-for="(line, index) in alignmentLines" 
+              :key="index" 
+              :type="line.type" 
+              :axis="line.axis" 
+              :length="line.length"
+              :canvasScale="canvasScale"
+            />
+            <MultiSelectOperate 
+              v-if="activeElementIdList.length > 1"
+              :elementList="elementList"
+              :scaleMultiElement="scaleMultiElement"
+            />
+            <Operate
+              v-for="element in elementList" 
+              :key="element.id"
+              :elementInfo="element"
+              :isSelected="activeElementIdList.includes(element.id)"
+              :isActive="handleElementId === element.id"
+              :isActiveGroupElement="activeGroupElementId === element.id"
+              :isMultiSelect="activeElementIdList.length > 1"
+              :rotateElement="rotateElement"
+              :scaleElement="scaleElement"
+              :openLinkDialog="openLinkDialog"
+              :dragLineElement="dragLineElement"
+              :moveShapeKeypoint="moveShapeKeypoint"
+              v-show="!hiddenElementIdList.includes(element.id)"
+            />
+            <ViewportBackground />
+          </div>
+
+          <div 
+            class="viewport" 
+            ref="viewportRef"
+            :style="{
+              width: viewportStyles.width + 'px',
+              height: viewportStyles.height + 'px',
+              transform: `scale(${canvasScale})`,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              transformOrigin: '0 0',
+            }"
+          >
+            <!-- No MouseSelection for 2nd slide to avoid complex ref logic for now, or assume it works if activated -->
+             <MouseSelection 
+              v-if="mouseSelectionVisible"
+              :top="mouseSelection.top" 
+              :left="mouseSelection.left" 
+              :width="mouseSelection.width" 
+              :height="mouseSelection.height" 
+              :quadrant="mouseSelectionQuadrant"
+            /> 
+            <EditableElement 
+              v-for="(element, index) in elementList" 
+              :key="element.id"
+              :elementInfo="element"
+              :elementIndex="index + 1"
+              :isMultiSelect="activeElementIdList.length > 1"
+              :selectElement="selectElement"
+              :openLinkDialog="openLinkDialog"
+              v-show="!hiddenElementIdList.includes(element.id)"
+            />
+          </div>
+        </template>
+
+         <!-- Static Mode (If Slide Index is NOT 1) -->
+        <template v-else>
+          <div class="slide-overlay" @mousedown.prevent.stop="slidesStore.updateSlideIndex(1)"></div>
+          <div 
+            class="viewport" 
+            :style="{
+              width: viewportStyles.width + 'px',
+              height: viewportStyles.height + 'px',
+              transform: `scale(${canvasScale})`,
+              pointerEvents: 'none',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              transformOrigin: '0 0',
+            }"
+          >
+             <div class="thumbnail-bg"
+                :style="slide2BackgroundStyle" 
+                style="position: absolute; width: 100%; height: 100%; z-index: -1;"
+             ></div>
+             <EditableElement 
+              v-for="(element, index) in slides[1]?.elements || []" 
+              :key="element.id"
+              :elementInfo="element"
+              :elementIndex="index + 1"
+              :isMultiSelect="false"
+              :selectElement="() => {}"
+              :openLinkDialog="() => {}"
+            />
+          </div>
+        </template>
+        <div class="page-number-label">Mặt sau</div>
       </div>
     </div>
 
@@ -157,8 +325,28 @@ const {
   textFormatPainter,
   previewTransition,
 } = storeToRefs(mainStore)
-const { currentSlide } = storeToRefs(useSlidesStore())
+const slidesStore = useSlidesStore()
+const { currentSlide, slides, slideIndex } = storeToRefs(slidesStore)
 const { ctrlKeyState, spaceKeyState } = storeToRefs(useKeyboardStore())
+
+const getBackgroundStyle = (background: any) => {
+  if (!background) return { backgroundColor: '#fff' }
+  const style: any = {}
+  if (background.type === 'solid') style.backgroundColor = background.color
+  else if (background.type === 'image') {
+    style.backgroundImage = `url(${background.image.src})`
+    style.backgroundSize = background.image.size
+    style.backgroundPosition = 'center'
+    style.backgroundRepeat = 'no-repeat'
+  }
+  else if (background.type === 'gradient') {
+    style.backgroundImage = background.gradient.color
+  }
+  return style
+}
+
+const slide1BackgroundStyle = computed(() => getBackgroundStyle(slides.value[0]?.background))
+const slide2BackgroundStyle = computed(() => getBackgroundStyle(slides.value[1]?.background))
 
 const viewportRef = useTemplateRef<HTMLElement>('viewportRef')
 const alignmentLines = ref<AlignmentLineProps[]>([])
@@ -373,5 +561,28 @@ provide(injectKeySlideScale, canvasScale)
   top: 0;
   left: 0;
   transform-origin: 0 0;
+}
+.slide-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0 0 0 2px $themeColor;
+  }
+}
+.page-number-label {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #666;
+  font-weight: 700;
+}
+.thumbnail-bg {
+  background-color: #fff;
 }
 </style>

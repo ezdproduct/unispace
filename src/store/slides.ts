@@ -51,7 +51,7 @@ export const useSlidesStore = defineStore('slides', {
     slides: [], // 幻灯片页面数据
     slideIndex: 0, // 当前页面索引
     viewportSize: 1000, // 可视区域宽度基数
-    viewportRatio: 0.5625, // 可视区域比例，默认16:9
+    viewportRatio: 1.33333333, // 可视区域比例，默认纵向 3:4
     templates: [
       { name: 'Sơn Hà Ánh Hồng', id: 'template_1', cover: './imgs/template_1.webp', origin: 'Sản xuất chính thức' },
       { name: 'Đô Thị Xanh', id: 'template_2', cover: './imgs/template_2.webp', origin: 'Sản xuất chính thức' },

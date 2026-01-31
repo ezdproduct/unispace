@@ -44,15 +44,19 @@ if (import.meta.env.MODE !== 'development') {
 }
 
 onMounted(async () => {
-  const initialSlide: any = {
-    id: 'initial_slide',
-    elements: [],
-    background: {
-      type: 'solid',
-      color: '#ffffff',
+  const initialSlides: any[] = [
+    {
+      id: 'slide_1',
+      elements: [],
+      background: { type: 'solid', color: '#ffffff' },
     },
-  }
-  slidesStore.setSlides([initialSlide])
+    {
+      id: 'slide_2',
+      elements: [],
+      background: { type: 'solid', color: '#ffffff' },
+    },
+  ]
+  slidesStore.setSlides(initialSlides)
 
   await deleteDiscardedDB()
   snapshotStore.initSnapshotDatabase()

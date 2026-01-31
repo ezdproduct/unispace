@@ -263,30 +263,7 @@
 
     <Divider />
 
-    <div class="title">{{ $t('toolbar.presetTheme') }}</div>
-    <div class="theme-list">
-      <div 
-        class="theme-item" 
-        v-for="(item, index) in PRESET_THEMES" 
-        :key="index"
-        :style="{
-          backgroundColor: item.background,
-          fontFamily: item.fontname,
-        }"
-      >
-        <div class="theme-item-content">
-          <div class="text" :style="{ color: item.fontColor }">{{ $t('toolbar.font') }} Aa</div>
-          <div class="colors">
-            <div class="color-block" v-for="(color, index) in item.colors" :key="index" :style="{ backgroundColor: color}"></div>
-          </div>
 
-          <div class="btns">
-            <Button type="primary" size="small" @click="applyPresetTheme(item)">{{ $t('toolbar.set') }}</Button>
-            <Button type="primary" size="small" style="margin-top: 3px;" @click="applyPresetTheme(item, true)">{{ $t('toolbar.setAndApply') }}</Button>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <Modal

@@ -2,7 +2,7 @@
   <div class="editor-header">
     <div class="left">
       <div class="header-item home-btn" @click="goLink('/')">
-        <IconHome class="icon" /> <span>Home</span>
+        <span class="logo-text">UNISPACE</span>
       </div>
 
       <Popover trigger="click" placement="bottom-start" v-model:value="mainMenuVisible">
@@ -61,21 +61,7 @@
     </div>
 
     <div class="center">
-      <div class="title">
-        <Input 
-          class="title-input" 
-          ref="titleInputRef"
-          v-model:value="titleValue" 
-          @blur="handleUpdateTitle()" 
-          v-if="editingTitle" 
-        ></Input>
-        <div 
-          class="title-text"
-          @click="startEditTitle()"
-          :title="title"
-          v-else
-        >{{ title || $t('header.untitledSubject') }}</div>
-      </div>
+      <!-- Title section removed as per user request -->
     </div>
 
     <div class="right">
@@ -166,14 +152,14 @@ const openAIPPTDialog = () => {
 <style lang="scss" scoped>
 .editor-header {
   height: 56px;
-  background: linear-gradient(135deg, #0A2B45 0%, #2A5D78 40%, #7094A8 75%, #F2EEE4 100%);
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #eee;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  color: #FFFFFF;
+  color: #333;
   font-family: $uiFont;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   z-index: 100;
 }
 
@@ -200,7 +186,7 @@ const openAIPPTDialog = () => {
   gap: 6px;
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.05);
   }
 
   .icon {
@@ -213,7 +199,7 @@ const openAIPPTDialog = () => {
   gap: 4px;
   margin-left: 8px;
   padding-left: 12px;
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 
   .action-icon {
     font-size: 18px;
@@ -223,7 +209,7 @@ const openAIPPTDialog = () => {
     transition: all $transitionDelayFast;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.15);
+      background-color: rgba(0, 0, 0, 0.05);
     }
 
     &.disable {
@@ -364,5 +350,11 @@ const openAIPPTDialog = () => {
   font-size: 11px;
   color: $textColorSecondary;
   font-style: italic;
+}
+.logo-text {
+  font-weight: 900;
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: $themeColor;
 }
 </style>

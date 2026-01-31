@@ -8,7 +8,7 @@
     <div class="panel-body">
       <!-- DESIGN TAB -->
       <div v-if="sidebarState === 'design'" class="design-panel">
-        <Thumbnails />
+        <BackgroundPool />
       </div>
 
       <!-- ELEMENTS TAB -->
@@ -28,31 +28,7 @@
           <LinePool @select="line => drawLine(line)" />
         </div>
 
-        <div class="section">
-          <div class="section-header">Đa phương tiện & Công cụ</div>
-          <div class="grid">
-            <div class="grid-item" @click="chartPoolActive = true">
-              <IconChartProportion class="icon" />
-              <span>Biểu đồ</span>
-            </div>
-            <div class="grid-item" @click="tableGeneratorActive = true">
-              <IconInsertTable class="icon" />
-              <span>Bảng</span>
-            </div>
-            <div class="grid-item" @click="latexEditorActive = true">
-              <IconFormula class="icon" />
-              <span>Toán học</span>
-            </div>
-            <div class="grid-item" @click="mediaInputActive = true">
-              <IconVideoTwo class="icon" />
-              <span>Video</span>
-            </div>
-            <div class="grid-item" @click="toggleSymbolPanel()">
-              <IconSymbol class="icon" />
-              <span>Ký hiệu</span>
-            </div>
-          </div>
-        </div>
+
       </div>
 
       <!-- TEXT TAB -->
@@ -62,6 +38,21 @@
           <div class="preset-item subheading" @click="drawText('subheading')">Thêm tiêu đề phụ</div>
           <div class="preset-item body" @click="drawText('body')">Thêm nội dung văn bản</div>
         </div>
+
+        <div class="colored-presets">
+          <div 
+            class="colored-item" 
+            v-for="(item, index) in coloredTemplates" 
+            :key="index"
+            :style="item.style"
+            @click="createColoredText(item)"
+          >
+            {{ item.label }}
+          </div>
+        </div>
+
+        <Divider />
+        <TextStylePanel />
       </div>
 
       <!-- UPLOADS TAB -->
@@ -109,7 +100,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useMainStore } from '@/store'
+import { useMainStore, useSlidesStore } from '@/store'
 import useCreateElement from '@/hooks/useCreateElement'
 import { getImageDataURL } from '@/utils/image'
 import type { ShapePoolItem } from '@/configs/shapes'
@@ -132,10 +123,12 @@ import ChartPool from './CanvasTool/ChartPool.vue'
 import TableGenerator from './CanvasTool/TableGenerator.vue'
 import MediaInput from './CanvasTool/MediaInput.vue'
 import LaTeXEditor from '@/components/LaTeXEditor/index.vue'
-import Thumbnails from './Thumbnails/index.vue'
+import BackgroundPool from './CanvasTool/BackgroundPool.vue'
 import Toolbar from './Toolbar/index.vue'
 import Modal from '@/components/Modal.vue'
 import FileInput from '@/components/FileInput.vue'
+import Divider from '@/components/Divider.vue'
+import TextStylePanel from './Toolbar/ElementStylePanel/TextStylePanel.vue'
 
 const mainStore = useMainStore()
 const { sidebarState } = storeToRefs(mainStore)
@@ -167,11 +160,68 @@ const panelTitle = computed(() => {
 
 const closePanel = () => mainStore.setSidebarState('')
 
-const drawText = (level: string) => {
-  mainStore.setCreatingElement({
-    type: 'text',
-    vertical: false,
-  })
+const slidesStore = useSlidesStore()
+const { viewportRatio, viewportSize } = storeToRefs(slidesStore)
+
+const drawText = (type: 'heading' | 'subheading' | 'body') => {
+  const defaultSize = {
+    heading: { width: 600, height: 80, fontSize: '60px', fontWeight: 700 },
+    subheading: { width: 500, height: 60, fontSize: '36px', fontWeight: 600 },
+    body: { width: 400, height: 100, fontSize: '24px', fontWeight: 400 },
+  }
+  const size = defaultSize[type]
+  const left = (viewportSize.value - size.width) / 2
+  const top = (viewportSize.value * viewportRatio.value - size.height) / 2
+  
+  const contentMap = {
+    heading: `<p style="font-size: ${size.fontSize}; font-weight: ${size.fontWeight}; text-align: center;">Thêm tiêu đề</p>`,
+    subheading: `<p style="font-size: ${size.fontSize}; font-weight: ${size.fontWeight}; text-align: center;">Thêm tiêu đề phụ</p>`,
+    body: `<p style="font-size: ${size.fontSize}; text-align: center;">Thêm nội dung văn bản</p>`,
+  }
+
+  createTextElement({
+    left,
+    top,
+    width: size.width,
+    height: size.height,
+  }, { content: contentMap[type] })
+}
+
+const coloredTemplates = [
+  { 
+    label: 'Glow', 
+    style: { color: '#fff', textShadow: '0 0 10px #00d4ff, 0 0 20px #00d4ff', backgroundColor: '#000' }, 
+    content: '<p style="font-size: 60px; font-weight: 800; color: #fff; text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff; text-align: center;">NEON</p>' 
+  },
+  { 
+    label: 'Gradient', 
+    style: { background: 'linear-gradient(45deg, #FF3D77, #8B2DED)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontWeight: 800 }, 
+    content: '<p style="font-size: 60px; font-weight: 800; background: linear-gradient(45deg, #FF3D77, #8B2DED); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center;">GRADIENT</p>' 
+  },
+  { 
+    label: 'Retro', 
+    style: { color: '#FFD700', textShadow: '3px 3px 0px #BF360C', fontWeight: 800 }, 
+    content: '<p style="font-size: 60px; font-weight: 800; color: #FFD700; text-shadow: 3px 3px 0px #BF360C; text-align: center;">RETRO</p>' 
+  },
+  { 
+    label: 'Cyber', 
+    style: { color: '#00ff41', border: '2px solid #00ff41', padding: '5px', backgroundColor: '#000', fontWeight: 'bold' }, 
+    content: '<p style="font-size: 50px; font-weight: 700; color: #00ff41; text-align: center;">CYBER</p>' 
+  },
+]
+
+const createColoredText = (template: typeof coloredTemplates[0]) => {
+  const width = 500
+  const height = 120
+  const left = (viewportSize.value - width) / 2
+  const top = (viewportSize.value * viewportRatio.value - height) / 2
+
+  createTextElement({
+    left,
+    top,
+    width,
+    height,
+  }, { content: template.content })
 }
 
 const drawShape = (shape: ShapePoolItem) => {
@@ -282,25 +332,59 @@ const toggleSymbolPanel = () => mainStore.setSymbolPanelState(!mainStore.showSym
   span { font-size: 11px; }
 }
 
-.text-presets {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  /* REMOVED .text-presets styles and replaced with new styles below */
+  .text-presets {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 
-.preset-item {
-  padding: 16px;
-  border-radius: 8px;
-  background-color: #f8f9fa;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-weight: 700;
+  .preset-item {
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 700;
+    text-align: center;
+    border: 1px solid transparent;
 
-  &:hover { background-color: #e8eaed; transform: scale(1.02); }
-  &.heading { font-size: 24px; }
-  &.subheading { font-size: 18px; }
-  &.body { font-size: 14px; font-weight: 400; }
-}
+    &:hover { 
+      background-color: #fff; 
+      border-color: $themeColor;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transform: translateY(-1px); 
+    }
+    
+    &.heading { font-size: 20px; font-weight: 800; }
+    &.subheading { font-size: 16px; font-weight: 700; opacity: 0.9; }
+    &.body { font-size: 14px; font-weight: 400; opacity: 0.8; }
+  }
+
+  .colored-presets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .colored-item {
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 16px;
+    font-weight: 800;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  }
 
 .uploads-panel {
   display: flex;

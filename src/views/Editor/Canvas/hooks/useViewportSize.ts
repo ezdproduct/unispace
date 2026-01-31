@@ -36,7 +36,7 @@ export default (canvasRef: ShallowRef<HTMLElement | null>) => {
     const canvasWidth = canvasRef.value.clientWidth
     const canvasHeight = canvasRef.value.clientHeight
 
-    if (canvasHeight / canvasWidth > viewportRatio.value) {      
+    if (canvasHeight / canvasWidth > viewportRatio.value) {
       const newViewportActualWidth = canvasWidth * (newValue / 100)
       const oldViewportActualWidth = canvasWidth * (oldValue / 100)
       const newViewportActualHeight = newViewportActualWidth * viewportRatio.value

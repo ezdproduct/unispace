@@ -44,9 +44,7 @@
       </template>
     </Draggable>
 
-    <div class="add-slide-fixed" v-if="vertical" @click="createSlide()">
-      <IconPlus class="icon" /> {{ $t('thumbnails.addSlide') }}
-    </div>
+
 
 
   </div>
@@ -291,11 +289,7 @@ const contextmenusThumbnails = (): ContextmenuItem[] => {
       subText: 'Ctrl + A',
       handler: selectAllSlide,
     },
-    {
-      text: t('contextmenu.newSlide'),
-      subText: 'Enter',
-      handler: createSlide,
-    },
+
     {
       text: t('contextmenu.playFromStart'),
       subText: 'F5',
@@ -327,21 +321,7 @@ const contextmenusThumbnailItem = (): ContextmenuItem[] => {
       handler: selectAllSlide,
     },
     { divider: true },
-    {
-      text: t('contextmenu.newSlide'),
-      subText: 'Enter',
-      handler: createSlide,
-    },
-    {
-      text: t('contextmenu.copySlide'),
-      subText: 'Ctrl + D',
-      handler: copyAndPasteSlide,
-    },
-    {
-      text: t('contextmenu.deleteSlide'),
-      subText: 'Delete',
-      handler: () => deleteSlide(),
-    },
+
     {
       text: t('contextmenu.addSection'),
       handler: createSection,

@@ -10,7 +10,7 @@ import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/store'
 import { ElementTypes } from '@/types/slides'
 
-import TextStylePanel from './TextStylePanel.vue'
+
 import ImageStylePanel from './ImageStylePanel.vue'
 import ShapeStylePanel from './ShapeStylePanel.vue'
 import LineStylePanel from './LineStylePanel.vue'
@@ -21,7 +21,7 @@ import VideoStylePanel from './VideoStylePanel.vue'
 import AudioStylePanel from './AudioStylePanel.vue'
 
 const panelMap = {
-  [ElementTypes.TEXT]: TextStylePanel,
+
   [ElementTypes.IMAGE]: ImageStylePanel,
   [ElementTypes.SHAPE]: ShapeStylePanel,
   [ElementTypes.LINE]: LineStylePanel,

@@ -266,23 +266,29 @@ const templateList = computed(() => {
     // Decode URI component to handle Vietnamese characters
     const lowerName = decodeURIComponent(fileName).toLowerCase().replace('.svg', '')
     
+    // Standardized format: type_id_face.svg (e.g., sample_a1_front.svg)
+    // type: sample | form
+    // face: front | back
+    
     let type = ''
-    if (lowerName.includes('mẫu')) type = 'sample'
+    if (lowerName.includes('sample')) type = 'sample'
     else if (lowerName.includes('form')) type = 'form'
     else continue
     
     let face = ''
-    if (lowerName.includes('mặt trước')) face = 'front'
-    else if (lowerName.includes('mặt sau')) face = 'back'
+    if (lowerName.includes('front')) face = 'front'
+    else if (lowerName.includes('back')) face = 'back'
     else continue
 
-    // Extract ID: Remove known keywords and clean up
-    // Keywords: mẫu, form, mặt trước, mặt sau, (2), -
+    // Extract ID: Remove type, face, and underscores/dashes
     let id = lowerName
-      .replace(/mẫu|form|mặt trước|mặt sau|\(.*\)/g, '')
-      .replace(/-/g, '') // Remove dashes
+      .replace(/sample|form|front|back/g, '')
+      .replace(/[_-]/g, ' ') // Replace separators with space to keep ID parts equivalent if needed, or just remove
       .trim()
       
+    // Fix ID if it becomes " a1 " -> "a1"
+    id = id.replace(/\s+/g, '').trim()
+    
     if (!id) continue
     
     if (!groups[id]) {

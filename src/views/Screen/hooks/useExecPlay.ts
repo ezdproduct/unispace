@@ -115,7 +115,7 @@ export default () => {
     loopPlay.value = loop
   }
 
-  const throttleMassage = throttle(function (msg) {
+  const throttleMassage = throttle(function(msg) {
     message.success(msg)
   }, 1000, { leading: true, trailing: false })
 
@@ -175,7 +175,7 @@ export default () => {
   }
 
   // 鼠标滚动翻页
-  const mousewheelListener = throttle(function (e: WheelEvent) {
+  const mousewheelListener = throttle(function(e: WheelEvent) {
     if (e.deltaY < 0) execPrev()
     else if (e.deltaY > 0) execNext()
   }, 500, { leading: true, trailing: false })

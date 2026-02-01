@@ -25,6 +25,7 @@
           <img 
             :src="elementInfo.src" 
             :draggable="false" 
+            referrerpolicy="no-referrer"
             :style="{
               top: imgPosition.top,
               left: imgPosition.left,

@@ -9,7 +9,13 @@
         :key="index"
         @click="applyBackground(bg)"
       >
-        <img :src="bg.src" loading="lazy" />
+        <img 
+          :src="bg.src" 
+          loading="lazy" 
+          referrerpolicy="no-referrer" 
+          @contextmenu.prevent
+          @dragstart.prevent
+        />
         <div class="checkmark" v-if="currentSlide.background?.image?.src === bg.src">
           <IconCheckOne class="icon" />
         </div>

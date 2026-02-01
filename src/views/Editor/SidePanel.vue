@@ -16,7 +16,13 @@
             class="template-item"
             @click="openTemplate(tpl)"
           >
-            <img :src="tpl.sampleFront" class="thumbnail" />
+            <img 
+              :src="tpl.sampleFront" 
+              class="thumbnail" 
+              referrerpolicy="no-referrer"
+              @contextmenu.prevent
+              @dragstart.prevent
+            />
           </div>
         </div>
         <div v-else class="template-detail">
@@ -28,7 +34,12 @@
             <div class="preview-item">
               <label>Mặt trước</label>
               <div class="img-wrapper" :class="{ 'active-side': isFrontActive }">
-                <img :src="activeTemplate.sampleFront" />
+                <img 
+                  :src="activeTemplate.sampleFront" 
+                  referrerpolicy="no-referrer"
+                  @contextmenu.prevent
+                  @dragstart.prevent
+                />
                 <div class="zoom-overlay" @click="openZoom('front')">
                   <IconPreviewOpen />
                 </div>
@@ -37,7 +48,12 @@
             <div class="preview-item" v-if="activeTemplate.sampleBack">
               <label>Mặt sau</label>
               <div class="img-wrapper" :class="{ 'active-side': isBackActive }">
-                <img :src="activeTemplate.sampleBack" />
+                <img 
+                  :src="activeTemplate.sampleBack" 
+                  referrerpolicy="no-referrer"
+                  @contextmenu.prevent
+                  @dragstart.prevent
+                />
                 <div class="zoom-overlay" @click="openZoom('back')">
                   <IconPreviewOpen />
                 </div>
@@ -66,7 +82,12 @@
                :key="index"
                @click="createImageElement(src)"
              >
-               <img :src="src" />
+               <img 
+                 :src="src" 
+                 referrerpolicy="no-referrer"
+                 @contextmenu.prevent
+                 @dragstart.prevent
+               />
              </div>
           </div>
         </div>
@@ -128,7 +149,12 @@
              :key="index"
              @click="createImageElement(src)"
            >
-             <img :src="src" />
+             <img 
+               :src="src" 
+               referrerpolicy="no-referrer" 
+               @contextmenu.prevent
+               @dragstart.prevent
+             />
            </div>
         </div>
 
@@ -172,7 +198,12 @@
         <div class="nav-btn left" v-if="zoomedIndex > 0" @click="switchZoom(-1)">
           <IconLeft size="24" fill="#fff" />
         </div>
-        <img :src="zoomedImageList[zoomedIndex]" />
+        <img 
+          :src="zoomedImageList[zoomedIndex]" 
+          referrerpolicy="no-referrer"
+          @contextmenu.prevent
+          @dragstart.prevent
+        />
         <div class="nav-btn right" v-if="zoomedIndex < zoomedImageList.length - 1" @click="switchZoom(1)">
           <IconRight size="24" fill="#fff" />
         </div>
@@ -362,10 +393,10 @@ const importCurrentTemplate = async () => {
   // Let's assume re-importing the SAME template is allowed or at least doesn't trigger "Reset".
   // But if we want to be strict:
   if (importedTemplateId.value && importedTemplateId.value === activeTemplate.value.id) {
-     // Already imported this one. Just return to avoid duplication if that's desired.
-     // Or let them import again (stacking duplicates of same template).
-     // Based on "start over", maybe we should clear even for the same template?
-     // For now, let's just track the ID.
+    // Already imported this one. Just return to avoid duplication if that's desired.
+    // Or let them import again (stacking duplicates of same template).
+    // Based on "start over", maybe we should clear even for the same template?
+    // For now, let's just track the ID.
   }
   
   const { formFront, formBack } = activeTemplate.value

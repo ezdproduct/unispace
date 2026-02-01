@@ -46,7 +46,12 @@
       >
         <template v-slot:default="props">
           <div class="img-item">
-            <img :src="props.src">
+            <img 
+              :src="props.src" 
+              referrerpolicy="no-referrer"
+              @contextmenu.prevent
+              @dragstart.prevent
+            >
             <div class="mask">
               <Button type="primary" size="small" @click="createImageElement(props.src)">{{ $t('imageLib.insert') }}</Button>
             </div>
